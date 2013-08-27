@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns="http://www.w3.org/1999/xhtml"
+                template="../templateadministracao.xhtml">
+
+
+    <ui:define name="content">
+       
+		<p:panel>
+       		<h:outputText value="Lista de inscritos"></h:outputText>
+       		<h:form id="form">
+			<p:panel >
+			<div style="width: 100%; overflow: scroll; height: 500px;">
+		    	<p:dataTable var="atividade" value="#{administracaoBeans.atividades}" widgetVar="tabelaAtividade" 
+		            emptyMessage="Participante não foi encontrado."
+		             paginator="false" rows="10"   
+		             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks}
+		              {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		             style="font-size: 0.8em; width: 2000px;"  rowsPerPageTemplate="5,10,15"
+		             >
+		
+		         <f:facet name="header" >
+		            <p:outputPanel>
+		                <h:outputText value="Buscar por todos os campos" />
+		                <p:inputText id="globalFilter" onkeyup="tabelaAtividade.filter()" style="width:150px" />
+		            </p:outputPanel>
+		        </f:facet>
+		
+				<p:column filterBy="#{atividade.participante.inscricaoQuitada}" 
+		                headerText="Status inscriçao" 
+		                filterOptions="#{administracaoBeans.opcoesInscricaoPaga}"  >
+					<h:outputText value="Pendente" id="statosPagamentoPendenteAdm" style="color:red;" 
+						rendered="#{not atividade.participante.inscricaoQuitada}" > </h:outputText>
+					
+					<h:outputText value="Pago" id="statosPagamentoQuitadoAdm"  style="color:blue;" 
+						rendered="#{atividade.participante.inscricaoQuitada}"> </h:outputText>
+		        </p:column>
+		        
+		        
+		        <p:column headerText="Compra" >
+		             <p:commandButton value="Exibir detalhes" update=":form :detalhesCompra" 
+		             					action="#{administracaoBeans.buscarComprovante}" oncomplete="carDialog.show()"  title="Edit">  
+	                     <f:setPropertyActionListener value="#{atividade.participante}" target="#{administracaoBeans.participante}" />  
+                 	</p:commandButton> 
+		        </p:column>
+		        
+		
+		        <p:column filterBy="#{atividade.participante.nome}" 
+		                headerText="Nome" >
+		            <h:outputText value="#{atividade.participante.nome}" />
+		        </p:column>
+		        
+		         <p:column filterBy="#{atividade.participante.cpf}"
+		                headerText="CPF" >
+		            <h:outputText value="#{atividade.participante.cpf}" />
+		        </p:column>
+		 		<p:column filterBy="#{atividade.indicador.nome}"
+		                headerText="Tipo De Cadastro" >
+		            <h:outputText value="#{atividade.indicador.nome}" />
+		        </p:column>
+		         <p:column filterBy="#{atividade.participante.email}" 
+		                headerText="E-mail"  >
+		            <h:outputText value="#{atividade.participante.email}" />
+		        </p:column>
+		        
+		        <p:column filterBy="#{atividade.atividade1.nome}"
+		                headerText="1ª opção" >
+		            <h:outputText value="#{atividade.atividade1.nome}" />
+		        </p:column>
+		        <p:column filterBy="#{atividade.atividade2.nome}"
+		                headerText="2ª opção" >
+		            <h:outputText value="#{atividade.atividade2.nome}" />
+		        </p:column>
+		        
+		        <p:column headerText="Data pedido" >
+		        </p:column>
+		        
+		       <p:column filterBy="#{atividade.comprovanteAtividade.tipo}" id="colunaAtividade"
+		       			filterOptions="#{administracaoBeans.opcoesComprovanteAtividade}"
+		                headerText="Conprovante Atividade" >
+		           <p:commandButton value="Visualizar" ajax="false" rendered="#{atividade.comprovanteAtividade !=null}">
+						<p:fileDownload value="#{atividade.comprovanteAtividade.streamedContent}"></p:fileDownload>
+					</p:commandButton>
+				</p:column>
+				<p:column headerText="Remover comprovante atividade">	
+					<p:commandButton value="Remover comprovante Atividade" 
+									update="comprovantesDoParticipante"  rendered="#{atividade.comprovanteAtividade !=null}"
+									action="#{administracaoBeans.removerComprovante}">
+									<f:setPropertyActionListener target="#{administracaoBeans.comprovante}" value="#{atividade.comprovanteAtividade}">
+									</f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+				
+		       <p:column filterBy="#{atividade.comprovanteEscolaridade.tipo}" id="colunaAtividadeEscolar"
+		       			filterOptions="#{administracaoBeans.opcoesComprovanteEscolaridade}"
+		                headerText="Conprovante Escolaridade" >
+		           <p:commandButton value="Visualizar" ajax="false" rendered="#{atividade.comprovanteEscolaridade !=null}">
+						<p:fileDownload value="#{atividade.comprovanteEscolaridade.streamedContent}"></p:fileDownload>
+					</p:commandButton>
+				</p:column>
+				<p:column headerText="Remover comprovante atividade">	
+					<p:commandButton value="Remover comprovante Inscrição" 
+									update="comprovantesDoParticipante"  rendered="#{atividade.comprovanteEscolaridade !=null}"
+									action="#{administracaoBeans.removerComprovante}">
+									<f:setPropertyActionListener target="#{administracaoBeans.comprovante}" value="#{atividade.comprovanteEscolaridade}">
+									</f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+				
+		       <p:column filterBy="#{atividade.comprovantePagamento.tipo}" id="colunaAtividadePagamento"
+		       			filterOptions="#{administracaoBeans.opcoesComprovantePagamento}"
+		                headerText="Conprovante Pagamento" >
+		          <p:commandButton value="Visualizar" ajax="false" rendered="#{atividade.comprovantePagamento !=null}">
+						<p:fileDownload value="#{atividade.comprovantePagamento.streamedContent}"></p:fileDownload>
+					</p:commandButton>
+				</p:column>
+				<p:column headerText="Remover comprovante atividade">	
+					<p:commandButton value="Remover comprovante Categoria" 
+									update="comprovantesDoParticipante"  rendered="#{atividade.comprovantePagamento !=null}"
+									action="#{administracaoBeans.removerComprovante}">
+									<f:setPropertyActionListener target="#{administracaoBeans.comprovante}" value="#{atividade.comprovantePagamento}">
+									</f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>                
+		        
+		       
+
+		    </p:dataTable>
+		    </div>
+		    </p:panel>
+		</h:form>
+       	</p:panel>
+       	
+       	 
+       	 <p:dialog header="Detalhes da compra" widgetVar="carDialog" resizable="true" id="carDlg"  
+              width="820" height="500" modal="true"> 
+              
+              <p:panel id="detalhesCompra">
+              <h:form>
+              
+              		
+					
+					<p:dataTable value="#{administracaoBeans.participante.comprovantes}" var="comprovante" id="comprovantesDoParticipante">
+						
+						<p:column headerText="Origem do comprovante">
+								<h:outputText rendered="#{comprovante.tipo == 'PGTO'}" value="Pagamento"></h:outputText>
+								<h:outputText rendered="#{comprovante.tipo == 'ESCO'}" value="Comprovante de escolaridate"></h:outputText>
+								<h:outputText rendered="#{comprovante.tipo == 'ATIV'}" value="Comprovante de atividade"></h:outputText>
+						</p:column>
+						<p:column>
+							<p:commandButton value="Visualizar" ajax="false">
+								<p:fileDownload value="#{comprovante.streamedContent}"></p:fileDownload>
+							</p:commandButton>
+						</p:column>
+						<p:column>	
+							<p:commandButton value="Remover comprovante " 
+											update="comprovantesDoParticipante"  
+											action="#{administracaoBeans.removerComprovante}">
+											<f:setPropertyActionListener target="#{administracaoBeans.comprovante}" value="#{comprovante}">
+											</f:setPropertyActionListener>
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+					</h:form>
+				<h:form>
+	              <p:dataTable value="#{administracaoBeans.participante.pedidos}" var="pedido">
+					
+					<p:column headerText="codigo">
+	              			<h:outputText value="#{pedido.id}"></h:outputText>
+	              	</p:column>
+	
+					<p:column headerText="Valor">
+						<h:outputText value="#{pedido.valorPedido}"></h:outputText>
+					</p:column>
+					
+					<p:column headerText="Data do pedido">
+						<h:outputText value="#{pedido.dataPedido}"></h:outputText>
+					</p:column>
+					
+					
+					
+					<p:column>
+						<p:dataTable value="#{pedido.itemsCompra}" var="itemCompra">
+						
+							<p:column>
+								<h:outputText value="Primeira opção" rendered="#{itemCompra.nivelPrioridade == 1}"/>
+								<h:outputText value="Segunda opção" rendered="#{itemCompra.nivelPrioridade == 2}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{itemCompra.produto.nome}"></h:outputText>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{itemCompra.produto.descricao}"></h:outputText>
+							</p:column>
+						</p:dataTable>
+					</p:column>
+	
+	              	<p:column headerText="Compra paga">             		
+              			<h:selectBooleanCheckbox value="#{pedido.boleto.quitado}" 
+              									valueChangeListener="#{administracaoBeans.testeListener}" 
+              									disabled="#{not administracaoBeans.podeEditar}">
+              			</h:selectBooleanCheckbox>
+	              	</p:column>
+	              </p:dataTable>
+			                <p:outputPanel  layout="block" style="text-align:right">  
+			                    <p:commandButton value="Salvar" update=":cars :form" rendered="#{administracaoBeans.podeEditar}"
+			                     actionListener="#{administracaoBeans.salvarPedido}"   
+			                     onclick="carDialog.hide()"    />  
+			                    
+			                    <p:commandButton value="Cancel" onclick="carDialog.hide()" type="button" />  
+			  
+			                </p:outputPanel>  
+              </h:form>
+              </p:panel>
+
+
+  
+            </p:dialog> 
+              
+       	
+       	<p:messages></p:messages>
+    </ui:define>
+</ui:composition>

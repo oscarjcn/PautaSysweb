@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns="http://www.w3.org/1999/xhtml"
+                template="home.xhtml">
+
+<ui:define name="content">
+	<h:panelGroup  rendered="#{not participanteBeans.inscricaoAcompanhante}">
+	    
+	       	<ui:include src="../../compras/cadastro.xhtml" />		
+	    
+    </h:panelGroup>
+    
+    <p:panel rendered="#{participanteBeans.inscricaoAcompanhante}">
+		<p>Sua categoria de inscrição está definida como 'Acompanhante' e não permite inscrições em outras atividades.</p>
+		
+		Se você ainda não efetuou seu pagamento o tipo de inscrição pode ser alterado, 
+		caso queira alterar o tipo de inscrição e seu status é 'pago' entre em contato (c.organizadora.cbc@gmail.com).     			
+	</p:panel>
+</ui:define>
+</ui:composition>

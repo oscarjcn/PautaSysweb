@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns="http://www.w3.org/1999/xhtml">
+    
+		<p:panel>
+			<f:facet name="header">
+				<h:outputText value="#{msgs['observacao.alterar.senha']}">
+				</h:outputText>
+			</f:facet>
+       		<h:form>
+       			<p:growl id="mensagem_alteracao_senha"></p:growl>	
+       			<h:panelGrid columns="2">
+	       			<h:outputText value="Senha atual:"></h:outputText>
+	       			<p:password value="#{administraSenhaUsuario.senhaAnterior}" feedback="false"> </p:password>
+	       			
+	       			<h:outputText value="Nova senha: "></h:outputText>
+	       			<p:password value="#{administraSenhaUsuario.senha}" rendered="true" requiredMessage="Nova senha é obrigatório."> </p:password>
+	       			<h:outputText value="Confirmação de nova senha:"></h:outputText>
+	       			<p:password value="#{administraSenhaUsuario.confirmaSenha}" feedback="false"> </p:password>
+				</h:panelGrid>
+				  <p:commandButton 
+				  	action="#{administraSenhaUsuario.alteraSenha}" 
+				  	value="Enviar nova senha"
+				  	update="mensagem_alteracao_senha"> </p:commandButton>
+       		</h:form>
+        </p:panel>
+    
+</html>

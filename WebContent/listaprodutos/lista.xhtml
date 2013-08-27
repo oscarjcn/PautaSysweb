@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				
+                template="../templateadministracao.xhtml">
+
+
+    <ui:define name="content">
+       
+		<p:panel>
+		    <h:form id="form">
+       		<h:outputText value="Lista de Itens para venda"></h:outputText>
+
+
+		    	
+		    
+		    <p:tabView effect="opacity" effectDuration="normal">
+				 	<p:tab title="Lista de camisas" id="dados-camisas">
+				 		<p:dataTable var="camisas" value="#{administracaoBeans.camisas}" widgetVar="tabelaResumos" 
+		            emptyMessage="Participante não foi encontrado.">
+		
+				         <f:facet name="header">
+				            <p:outputPanel>
+				                <h:outputText value="Buscar por todos os campos" />
+				                <p:inputText id="globalFilter" onkeyup="tabelaResumos.filter()" style="width:150px" />
+				            </p:outputPanel>
+				        </f:facet>
+				
+				        <p:column filterBy="#{camisas.produto.nome}" 
+				                headerText="Nome" >
+				            <h:outputText value="#{camisas.produto.nome}" />
+				        </p:column>
+				
+				        
+				        <p:column filterBy="#{camisas.quantidadeVendida}"
+				                headerText="Quantidade vendida" >
+				            <h:outputText value="#{camisas.quantidadeVendida}" />
+				        </p:column>
+				                
+				        <p:column filterBy="#{camisas.produto.descricao}"
+				                headerText="Descrição" >
+				            <h:outputText value="#{camisas.produto.descricao}" />
+				        </p:column>
+				        
+				        <p:column filterBy="#{camisas.produto.preco}"
+				                headerText="Preço" >
+				            <h:outputText value="#{camisas.produto.preco}" />
+				        </p:column>
+				        
+				        
+				    </p:dataTable>
+				 	</p:tab>
+				 	<p:tab title="Passagens" id="dados-resumos" rendered="#{Usuario.participante != null and participanteBeans.inscricaoQuitada}">
+				 		
+				 		
+				 		<p:dataTable var="passagem" value="#{administracaoBeans.passagens}" widgetVar="tabelaResumos" 
+		            emptyMessage="Participante não foi encontrado.">
+		
+				         <f:facet name="header">
+				            <p:outputPanel>
+				                <h:outputText value="Buscar por todos os campos" />
+				                <p:inputText id="globalFilter" onkeyup="tabelaResumos.filter()" style="width:150px" />
+				            </p:outputPanel>
+				        </f:facet>
+				
+				        <p:column filterBy="#{passagem.produto.nome}" 
+				                headerText="Nome" >
+				            <h:outputText value="#{passagem.produto.nome}" />
+				        </p:column>
+				
+				        
+				        <p:column filterBy="#{passagem.quantidadeVendida}"
+				                headerText="Quantidade vendida" >
+				            <h:outputText value="#{passagem.quantidadeVendida}" />
+				        </p:column>
+				                
+				        <p:column filterBy="#{passagem.produto.descricao}"
+				                headerText="Descrição" >
+				            <h:outputText value="#{passagem.produto.descricao}" />
+				        </p:column>
+				        
+				        <p:column filterBy="#{passagem.produto.preco}"
+				                headerText="Preço" >
+				            <h:outputText value="#{passagem.produto.preco}" />
+				        </p:column>
+				        
+				        <p:column filterBy="#{passagem.produto.quantidadeDisponiveis}"
+				                headerText="Quantidade disponivel" >
+				            <h:outputText value="#{passagem.produto.quantidadeDisponiveis}" />
+				        </p:column>
+				        
+				    </p:dataTable>
+				 	
+				 	</p:tab>
+				 	
+				 </p:tabView>
+		    
+		</h:form>
+       	</p:panel>
+       	
+       	 
+       	
+              
+       	
+       	
+    </ui:define>
+</ui:composition>

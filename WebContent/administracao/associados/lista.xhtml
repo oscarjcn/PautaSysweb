@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				
+                template="../templateadministracao.xhtml">
+
+
+    <ui:define name="content">
+    	
+    	<p:tabView activeIndex="#{admAssociadoBean.abaAtual}" id="geral_associado">
+    		<p:tab title="Cadastrar Associado">
+				<p:panel>
+				<h:form id="form_cadastro_associados" >
+				<p:growl id="mensagem_cadastro_associado"></p:growl>
+				<h:panelGrid columns="2" >
+					
+						<h:outputText value="Nome" ></h:outputText>
+						<h:inputText value="#{admAssociadoBean.associado.nome}" id="nome" ></h:inputText>
+						
+						<h:outputText value="E-mail:" ></h:outputText>
+						<h:inputText value="#{admAssociadoBean.associado.email}" id="email" ></h:inputText>
+						
+						<h:outputText value="CPF/Passaport" ></h:outputText>
+						<h:inputText value="#{admAssociadoBean.associado.cpf}" id="cpf" validator="br.museugoeldi.valida.associado.cpf"></h:inputText>
+						
+						<h:outputText value="Número de sócio" ></h:outputText>
+						<h:inputText value="#{admAssociadoBean.associado.numero}" id="numero" 
+									validator="br.museugoeldi.valida.associado.numero">
+									</h:inputText>
+						
+						<h:outputText value="Mensalidade em dia:" ></h:outputText>
+						<h:selectOneRadio value="#{admAssociadoBean.associado.pagamentoEmDia}" > 
+							<f:selectItem itemLabel="Sim" itemValue="true" ></f:selectItem>
+							<f:selectItem itemLabel="Não" itemValue="false"></f:selectItem> 
+						</h:selectOneRadio>
+					
+					<p:commandButton update="@form :tabela_cadastro_associados" 
+					action="#{admAssociadoBean.cadastrar}" value="Cadastrar associado" 
+					rendered="#{admAssociadoBean.renderizaCadastro}"></p:commandButton>
+					
+					<p:commandButton update="@form :tabela_cadastro_associados" 
+					action="#{admAssociadoBean.atualizar}" value="Atualiza associado" rendered="#{admAssociadoBean.renderizaEdicao}"></p:commandButton>
+					
+					<p:commandButton action="#{admAssociadoBean.cancelar}" value="Cancelar" 
+			       					update=":form_cadastro_associados" 
+			       					rendered="#{admAssociadoBean.renderizaEdicao}">
+       				</p:commandButton>
+       				<p:messages></p:messages>
+					
+		       	</h:panelGrid>
+		       	</h:form>
+		       	</p:panel>
+	       	</p:tab>
+	       	<p:tab title="Consultar Associado">
+	       		<p:panel id="painel_lista_associados">
+		       	<h:form id="tabela_cadastro_associados">
+		       		<p:dataTable value="#{admAssociadoBean.associados}" var="associado" id="tabela_Associados"
+		       		paginator="true" rows="10"  rowsPerPageTemplate="5,10,15"
+		             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		       		>
+		       			<p:column headerText="Nome" filterBy="#{associado.nome}">
+		       				<h:outputText value="#{associado.nome}">
+		       				</h:outputText>
+		       			</p:column>
+		       			
+		       			<p:column headerText="E-mail" filterBy="#{associado.email}">
+		       				<h:outputText value="#{associado.email}">
+		       				</h:outputText>
+		       			</p:column>
+		       			
+		       			<p:column headerText="CPF" filterBy="#{associado.cpf}">
+		       				<h:outputText value="#{associado.cpf}">
+		       				</h:outputText>
+		       			</p:column>
+						<p:column headerText="Numero" filterBy="#{associado.numero}">
+		       				<h:outputText value="#{associado.numero}">
+		       				</h:outputText>
+		       			</p:column>
+		       			
+		       			<p:column headerText="Mensalidade em dia" 
+		       						filterBy="#{associado.pagamentoEmDia}"
+		       						filterOptions="#{admAssociadoBean.mensalidadeEmDia}">
+		       				<h:outputText value="Sim" rendered="#{associado.pagamentoEmDia}">
+		       				</h:outputText>
+		       				<h:outputText value="Não" rendered="#{not associado.pagamentoEmDia}">
+		       				</h:outputText>
+		       			</p:column>
+
+		       			<p:column headerText="Inválido" 
+		       						filterBy="#{associado.invalido}"
+		       						filterOptions="#{admAssociadoBean.participanteInvalido}">
+		       				<h:outputText value="Invalido" rendered="#{associado.invalido}">
+		       				</h:outputText>
+		       			</p:column>
+		       			
+		       			<p:column headerText="Editar" >
+		       				<p:commandLink action="#{admAssociadoBean.exibeEdicao}" value="Editar" 
+		       						update=":geral_associado" >
+		       					<f:setPropertyActionListener   
+		       					target="#{admAssociadoBean.associado}" value="#{associado}"></f:setPropertyActionListener>
+		       				</p:commandLink>
+		       			</p:column>
+						<p:column headerText="Excluir" >
+		       				<p:commandLink onclick="confirmaExclusaoAssociado.show()" value="Excluir"  
+		       				update=":painel_confirma_exclusao">
+		       				<f:setPropertyActionListener   
+					       					target="#{admAssociadoBean.associado}" value="#{associado}"></f:setPropertyActionListener>
+		       				</p:commandLink>
+		       				
+		       				
+		       			</p:column>
+		       		</p:dataTable>
+	       		</h:form>
+	       		</p:panel>
+	       		
+	       	</p:tab>
+       	</p:tabView>
+       	
+       				<p:dialog id="comfirma_exclusao_associado" closable="false"
+		       						widgetVar="confirmaExclusaoAssociado" width="600">
+		       			<p:panel id="painel_confirma_exclusao">
+	      						<h:outputText value="Tem certeza que deseja excluir o associado:"></h:outputText>
+	       						<h:panelGrid columns="4"    rowClasses="bordasimples" 
+	       							styleClass="tabelabordasimples" >
+	       						
+	       							<h:outputText value="Nome"></h:outputText>
+	       							<h:outputText value="CPF"></h:outputText>
+	       							<h:outputText value="Numero"></h:outputText>
+	       							<h:outputText value="Estatus da inscricao"></h:outputText>
+
+				       				<h:outputText value="#{admAssociadoBean.associado.nome}"></h:outputText>
+				       				<h:outputText value="#{admAssociadoBean.associado.cpf}"></h:outputText>
+				       				<h:outputText value="#{admAssociadoBean.associado.numero}"></h:outputText>
+				       				<h:outputText value="Sim" rendered="#{admAssociadoBean.associado.pagamentoEmDia}"></h:outputText>
+				       				<h:outputText value="Não" rendered="#{not admAssociadoBean.associado.pagamentoEmDia}"></h:outputText>
+				       				
+					       			<f:facet name="footer">
+										<h:form>					       		
+			       							<p:commandButton action="#{admAssociadoBean.excluir}" value="Excluir" 
+			       								update=":painel_lista_associados" oncomplete="confirmaExclusaoAssociado.hide();">
+						       				</p:commandButton>
+						       				<p:commandButton action="#{admAssociadoBean.invalidarCadastro}" value="Configurar como cadastro inválido" 
+			       								update=":painel_lista_associados" oncomplete="confirmaExclusaoAssociado.hide();">
+						       				</p:commandButton>
+						       				
+						       				<p:commandButton action="#{admAssociadoBean.cancelar}" value="Cancelar" 
+			       								update=":form_cadastro_associados" oncomplete="confirmaExclusaoAssociado.hide();">
+						       				</p:commandButton>
+					       				</h:form>
+		       						</f:facet>
+	       						</h:panelGrid>
+	      					</p:panel>
+       				</p:dialog>
+       	
+    </ui:define>
+</ui:composition>

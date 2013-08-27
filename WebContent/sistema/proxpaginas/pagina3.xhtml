@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns="http://www.w3.org/1999/xhtml"
+                template="home.xhtml">
+
+
+    <ui:define name="content">
+       	<h:panelGroup columns="1" rendered="#{participanteBeans.inscricaoQuitada and not participanteBeans.inscricaoAcompanhante}">
+			<ui:include src="../../resumo/cadastro.xhtml" />
+		</h:panelGroup>
+		<h:panelGrid columns="1" rendered="#{not participanteBeans.inscricaoQuitada}">
+			<h:outputText value="Você deve efetuar o pagamento antes de enviar Resumos!"></h:outputText>
+		</h:panelGrid>
+		<p:panel rendered="#{participanteBeans.inscricaoAcompanhante}">
+			<h:outputText value="Não é permitido o envio de resumos para acompanhantes."></h:outputText>				
+		</p:panel>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,221 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../resources/css/default.css" rel="stylesheet"
+		type="text/css" />
+	<link href="../resources/css/cssLayout.css" rel="stylesheet"
+		type="text/css" />
+	<title><h:outputText value="#{pagamentoBeans.titulo}" /></title>
+</h:head>
+
+<h:body>
+			<p:panel header="Detalhamento de pagamentos" id="painelPagamento">
+		
+				<h:form id="formPedidosInscricao" prependId="false">
+			
+				
+					<p:dataTable  value="#{pagamentoBeans.pedidosInscricao}" var="pedido" id="tabelaPagamentoInscricao">
+						
+					
+						 <p:columnGroup type="header">
+						 	<p:row>
+								<p:column colspan="2" headerText="Inscrição no evento"  style="font-weight: bold;"></p:column>
+							</p:row>
+							<p:row>
+								<p:column colspan="2"  style="text-align:left; background: none">
+									<f:facet name="header">
+									
+									<h:outputText value="Status do pagamento da inscrição:" id="statusPagamentoRelatorio" escape="false"> </h:outputText>
+									<b>
+									<h:outputText value="Pendente" id="statosPagamentoPendenteRelatorio" style="color:red;" rendered="#{not participanteBeans.inscricaoQuitada}" > </h:outputText>
+									<h:outputText value="Pago" id="statosPagamentoQuitadoRelatorio"  style="color:blue;" rendered="#{participanteBeans.inscricaoQuitada}"> </h:outputText>
+									</b>
+									</f:facet>
+								</p:column>
+							</p:row>
+							
+							<p:row>
+								<p:column colspan="2"  headerText="Categoria da inscrição" style="text-align:left;" ></p:column>
+								
+							</p:row>
+						</p:columnGroup>
+								
+								
+						<p:column >
+							#{pedido.nome}
+						
+							
+						</p:column>
+						
+						<p:column >
+							<h:outputText value="#{pedido.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+						
+						
+						 <p:columnGroup type="footer">
+							<p:row>
+								<p:column   style="text-align:left; background: none">
+									<f:facet name="footer">									
+									<h:outputText value="Enviar comprovante da categoria (necessário para Estudantes e Professores do Ensino Médio):"  escape="false"> </h:outputText>
+									</f:facet>
+								</p:column>
+								<p:column   style="text-align:left; background: none">
+									<f:facet name="footer">																			
+												
+													 <p:fileUpload 	fileUploadListener="#{pagamentoBeans.handleFileUpload}"	mode="advanced" 
+											update="comprovanteformacao" sizeLimit="2000000"	allowTypes="doc,docx,pdf,jpg,jpeg" auto="true" 
+											uploadLabel="Pesquisar"	multiple="false" invalidFileMessage="As extensões de arquivo permitidas são: DOC, DOCX, PDF, JPG"
+											label="Localizar comprovante" required="true" requiredMessage="Arquivo é obrigatório" sizeExceedMessage="Arquivo é muito grande. Deve ter ate 2mb."
+											 />
+											 <h:outputText value="#{pagamentoBeans.nomeArquivoSelecionado}" id="comprovanteformacao"></h:outputText>
+								
+										<p:commandButton value="Enviar comprovante" style="height: 25px; "
+														action="#{pagamentoBeans.salvarComprovante}" 
+														update=":visualisaComprovantePagamento formPedidosInscricao"></p:commandButton>
+									</f:facet>
+								</p:column>
+							</p:row>
+						 
+						 	<p:row>
+								<p:column colspan="2" footerText="Formas de pagamento:"  style="text-align:left;"></p:column>
+							</p:row>
+							<p:row>
+								<p:column   style="text-align:left; background: none">
+									<f:facet name="footer">									
+									<h:outputText value="Enviar comprovante de Depósito/transferência bancária:"> </h:outputText> <br/>
+									<h:outputText value="(formatos aceitos: .pdf .jpeg. .tiff. bmp. Doc. Comprovantes também poderão ser"></h:outputText><br/>  
+									 <h:outputText value="enviados ao e-mail c.organizadora.cbc@gmail.com)" > </h:outputText>
+									</f:facet>
+								</p:column>
+								<p:column   style="text-align:left; background: none">
+									<f:facet name="footer">									
+										<p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"  
+											            mode="advanced"  
+											            update="messages"  
+											            auto="true"  
+											            sizeLimit="100000"   
+											            allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>  
+												
+													 <p:fileUpload 	fileUploadListener="#{pagamentoBeans.handleFileUpload}"	mode="advanced" 
+											update="comprovantepagamento" sizeLimit="2000000"	allowTypes="doc,docx,pdf,jpg,jpeg" auto="true" 
+											uploadLabel="Pesquisar"	multiple="false" invalidFileMessage="As extensões de arquivo permitidas são: DOC, DOCX, PDF, JPG"
+											label="Localizar comprovante" required="true" requiredMessage="Arquivo é obrigatório" sizeExceedMessage="Arquivo é muito grande. Deve ter ate 2mb."
+											 />
+											 <h:outputText value="#{pagamentoBeans.nomeArquivoSelecionado}" id="comprovantepagamento"></h:outputText>
+								
+										<p:commandButton value="Enviar comprovante" style="height: 25px; "
+														action="#{pagamentoBeans.salvarComprovante}" 
+														update=":visualisaComprovantePagamento formPedidosInscricao"></p:commandButton>
+									</f:facet>
+								</p:column>
+							</p:row>
+							
+							<p:row>
+								<p:column  footerText="Pagar via Paypal ou Cartão de crédito, clique no botão:" style="text-align:left; background: none;" ></p:column>
+								<p:column  >
+									<f:facet name="footer">
+										<h:commandButton></h:commandButton>
+									</f:facet>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column colspan="2"  style="text-align:left;">
+
+									<f:facet name="footer">
+										
+										<h:outputText value="Caro participante, após registrarmos seu pagamento será liberado o acesso às" ></h:outputText> <br></br>
+										<h:outputText value="demais áreas do seu cadastro como minicursos, oficinas e resumos." ></h:outputText><br></br>
+										<h:outputText value="Caso ainda não esteja inscrito em um minicurso ou oficina e deseja fazê-lo, você poderá efetuar o pagamento" ></h:outputText><br></br>
+										<h:outputText value="da inscrição posteriormente selecionando na guia de minicurso/oficina e retornando em pagamento para concretizar" ></h:outputText> <br></br>
+										<h:outputText value="sua inscrição na atividade escolhida." ></h:outputText><br></br>
+										<h:outputText value="Qualquer problema entre em contato: c.organizadora.cbc@gmail.com" ></h:outputText><br></br>
+										
+									</f:facet>
+								</p:column>
+							</p:row>
+						</p:columnGroup>
+					</p:dataTable>
+					
+									
+		</h:form>
+		<h:form>
+			<p:panel id="enviaComprovantePagamento" >
+				<p:fileUpload 	fileUploadListener="#{pagamentoBeans.handleFileUpload}"	mode="advanced" 
+											update="comprovanteformacao" sizeLimit="2000000"	allowTypes="doc,docx,pdf,jpg,jpeg" auto="true" 
+											uploadLabel="Pesquisar"	multiple="false" invalidFileMessage="As extensões de arquivo permitidas são: DOC, DOCX, PDF, JPG"
+											label="Localizar comprovante" required="true" requiredMessage="Arquivo é obrigatório" sizeExceedMessage="Arquivo é muito grande. Deve ter ate 2mb."
+											 />
+											 <h:outputText value="#{pagamentoBeans.nomeArquivoSelecionado}" id="comprovanteformacao"></h:outputText>
+								
+			<p:commandButton value="Enviar comprovante" style="height: 25px; "
+							action="#{pagamentoBeans.salvarComprovante}" 
+							update=":visualisaComprovantePagamento formPedidosInscricao"></p:commandButton>
+			</p:panel>
+			
+														
+			<p:panel id="visualisaComprovantePagamento" >
+				<a href="../../../comprovantes_crustaceo/#{pagamentoBeans.comprovante.caminhoArquivo}"><h:outputText
+											value="#{pagamentoBeans.comprovante.caminhoArquivo}" />
+									</a>
+									
+				<p:commandLink id="downloadComprovante" value="Baixar comprovante" ajax="false">
+					<p:fileDownload value="#{pagamentoBeans.arquivoComprovante}"></p:fileDownload>
+				</p:commandLink>
+				
+				<p:commandButton value="Remover comprovante" update="visualisaComprovantePagamento"  action="#{pagamentoBeans.removerComprovante}"></p:commandButton>
+					
+			</p:panel>
+		</h:form>
+		
+
+				<h:form id="formPedidosCurso" rendered="#{pagamentoBeans.exibirMiniCurso}">
+					<h:outputText value="Status do pagamento da mini-curso" id="statusPagamentoMiniCursoRelatorio" escape="false"> </h:outputText>
+						<b>
+						<h:outputText value="Pendente" id="statosPagamentoMinicursoPendenteRelatorio" style="color:red;" 
+						rendered="#{not pagamentoBeans.pagamentoMiniCursoQuitado and pagamentoBeans.exibirMiniCurso}" > </h:outputText>
+						<h:outputText value="Pago" id="statosPagamentoMiniCursoQuitadoRelatorio"  style="color:blue;" 
+						rendered="#{pagamentoBeans.pagamentoMiniCursoQuitado and  pagamentoBeans.exibirMiniCurso}"> </h:outputText>
+						</b>
+					<p:dataTable value="#{pagamentoBeans.pedidosCurso}" var="pedido">
+						<f:facet name="header">
+							<h:outputText value="Em mini curso"></h:outputText>
+						</f:facet>
+						<p:column headerText="Data" >
+							<h:outputText value="#{pedido.dataPedido}">
+								<f:convertDateTime dateStyle="full" timeZone="EST" type="date" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="valor">
+							<h:outputText value="#{pedido.valorPedido}"></h:outputText>
+						</p:column>
+						<p:column headerText="item">
+							<p:dataTable value="#{pedido.itemsCompra}" var="item">
+								<p:column >
+									
+									<h:outputText value="Primeira opção"  rendered="#{item.nivelPrioridade == 1}"/>
+									<h:outputText value="Segunda opção" rendered="#{item.nivelPrioridade == 2}" />
+								</p:column>
+								<p:column >
+									#{item.produto.nome}
+								</p:column>
+							</p:dataTable>
+						</p:column>
+					</p:dataTable>
+					
+					<p:panel rendered="#{not pagamentoBeans.exibirMiniCurso}">
+					As inscrições e pagamentos de minicursos estarão disoníveis assim que todos forem definidos.
+					</p:panel>
+					
+				</h:form>
+		</p:panel>
+</h:body>
+</html>

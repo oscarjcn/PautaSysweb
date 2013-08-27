@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:stella="http://stella.caelum.com.br/faces2"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="./resources/css/default.css" rel="stylesheet"
+		type="text/css" />
+	<link href="./resources/css/cssLayout.css" rel="stylesheet"
+		type="text/css" />
+	<title><h:outputText value="#{index.titulo}" /> </title>
+</h:head>
+
+<h:body>
+	<div>
+		<div>
+			<div id="content" class="right_content">
+			<center>
+
+<a  href="senha/recuperar.jsf">Caso tenha perdido sua senha clique aqui.</a>
+			 <p:panel>
+			 	 
+					Obs: Utilize preferencialmente  navegador <a href="http://www.mozilla.com/pt-BR/firefox/" >firefox</a> 
+					 (algumas versões do chrome e Internet Explorer podem não exibir este site corretamente).
+				
+			</p:panel>			
+
+<h:panelGrid columns="2" cellpadding="5" cellspacing="5"  style="width:870px" id="painel_cadastro_login" >
+
+	<h:panelGrid columns="1" cellpadding="5" cellspacing="5"    >
+		<p:column colspan="2" >
+			
+		</p:column>
+
+		<h:outputText value="" />
+		
+		<p:panel header="Registro" rendered="false">			
+			<h:form prependId="false">
+				<h:panelGrid columns="2" width="100%" >
+					<h:panelGroup>
+						<p:growl  id="mensagens3" showDetail="true"/>
+						<h:outputText value="Nome Completo" />
+					</h:panelGroup>
+					<p:inputText value="#{index.nome}" required="true" size="40" requiredMessage="Nome é obrigatório"/>
+					<h:outputText value="Email" />
+					<p:inputText value="#{index.email}" required="true" size="40" requiredMessage="E-mail é obrigatório" >
+					<f:validator validatorId="emailValidator"/>
+					</p:inputText>
+					<h:outputText value="Email Novamente" />
+					<p:inputText value="#{index.email2}" required="true" size="40" requiredMessage="Confirmacao de e-mail é obrigatório" >
+						<f:validator validatorId="emailValidator"/>
+					</p:inputText>
+					<h:outputText value="Senha" />
+					<p:password value="#{index.senha}" id="SenhaRegistro"  required="true" size="40" requiredMessage="Senha é obrigatório"  >
+						<f:validateLength minimum="6" ></f:validateLength>
+					</p:password>
+					
+					<h:outputText value="Repita sua Senha" />
+					<p:password value="#{index.senha2}" feedback="false"  required="true" size="40" requiredMessage="Confirmacao de senha é obrigatório" />
+					<h:outputText value="" />
+					<p:commandButton action="#{index.cadastrar}" value="Registrar" update="mensagens3"/>
+					
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+			
+		
+	<p:fieldset legend="Visualizar  cadastro" style=" text-align: left" id="form_loguin" >
+	
+		<h:form>
+		<p:growl  id="mensagens2" showDetail="true"/>
+		<h:panelGrid columns="2" width="100%" cellpadding="5" >
+			<h:outputText value="Email" />
+			<p:inputText value="#{index.email}" required="true" size="40" id="emaillogin" requiredMessage="E-mail é obrigatório"/>
+
+			
+			<h:outputText value="Senha" />
+			<p:password value="#{index.senha}" feedback="false"  id="senha" required="true" size="40" requiredMessage="Senha é obrigatório" />
+			
+			
+			<h:outputText value="" />
+			<p:commandButton action="#{index.login}" value="Logar" update="mensagens2" id="logar"/>
+			
+		</h:panelGrid>
+		</h:form>
+	</p:fieldset>
+
+    <p:fieldset  legend="Iniciar novo cadastro"  id="cadastro_usuario"  style="text-align: left" > 
+		
+		<h:form prependId="false">
+		<p:growl  id="mensagens" showDetail="true"/>
+		<h:panelGrid columns="2" width="100%" >
+			
+			<h:outputText value="Nome Completo" />
+			<p:inputText value="#{index.nome}" required="true" size="40" requiredMessage="Nome é obrigatório"/>
+			<h:outputText value="Email" />
+			<p:inputText value="#{index.email}" required="true" size="40" requiredMessage="E-mail é obrigatório" >
+			<f:validator validatorId="emailValidator"/>
+			</p:inputText>
+			<h:outputText value="Email Novamente" />
+			<p:inputText value="#{index.email2}" required="true" size="40" requiredMessage="Confirmacao de e-mail é obrigatório" >
+				<f:validator validatorId="emailValidator"/>
+			</p:inputText>
+			<h:outputText value="Senha" />
+			<p:password value="#{index.senha}" id="Senha"  required="true" size="40" requiredMessage="Senha é obrigatório"  >
+				<f:validateLength minimum="6" ></f:validateLength>
+			</p:password>
+			
+			<h:outputText value="Repita sua Senha" />
+			<p:password value="#{index.senha2}" feedback="false"  required="true" size="40" requiredMessage="Confirmacao de senha é obrigatório" />
+			<h:outputText value="" />
+			<p:commandButton action="#{index.cadastrar}" value="Registrar" update="mensagens"/>
+			
+		</h:panelGrid>
+		</h:form>
+	</p:fieldset>
+			
+</h:panelGrid>
+
+	<h:graphicImage value="/images/congresso_de_gestao_de_pessoas.png"></h:graphicImage>
+</h:panelGrid>
+</center>
+	</div>
+		</div>
+	</div>
+</h:body>
+
+</html>		 
+	

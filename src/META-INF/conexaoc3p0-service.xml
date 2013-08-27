@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE server>
+<server>
+<mbean code="com.mchange.v2.c3p0.jboss.C3P0PooledDataSour ce"
+name="jboss:service=C3P0PooledDataSource">
+<attribute name="JndiName">java:/jdbc/conexaoc3p0</attribute>
+<attribute name="JdbcUrl">jdbc:mysql://localhost:3306/crustacio?autoReconnect=true</attribute>
+<attribute name="DriverClass">com.mysql.jdbc.Driver</attribute>
+<attribute name="User">root</attribute>
+<attribute name="Password">root</attribute> 
+
+<attribute name="MaxIdleTime">15</attribute> 
+<attribute name="TestConnectionOnCheckin">true</attribute>
+<attribute name="TestConnectionOnCheckout">true</attribute>
+<attribute name="UnreturnedConnectionTimeout">15</attribute>
+<depends>jboss:service=Naming</depends>
+</mbean>
+</server> 

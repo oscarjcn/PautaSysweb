@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../resources/css/default.css" rel="stylesheet"
+		type="text/css" />
+	<link href="../resources/css/cssLayout.css" rel="stylesheet"
+		type="text/css" />
+	
+</h:head>
+
+
+  
+<h:body>
+				 <p:tabView style="width:870px; height:550px; " id="tela_compras">
+				 	<p:tab title="Inscrição em atividade">
+				 	<h:outputText value="Status do pagamento da atividade" id="statusPagamentoMiniCursoRelatorio" 
+				 					rendered="#{not pagamentoBeans.pagamentoMiniCursoQuitado and pagamentoBeans.exibirMiniCurso}"
+				 					escape="false"> 
+				 	</h:outputText>
+						<b>
+						<h:outputText value="Pendente" id="statosPagamentoMinicursoPendenteRelatorio" style="color:red;" 
+						rendered="#{not pagamentoBeans.pagamentoMiniCursoQuitado and pagamentoBeans.exibirMiniCurso}" > </h:outputText>
+						<h:outputText value="Pago" id="statosPagamentoMiniCursoQuitadoRelatorio"  style="color:blue;" 
+						rendered="#{pagamentoBeans.pagamentoMiniCursoQuitado and  pagamentoBeans.exibirMiniCurso}"> </h:outputText>
+						</b>
+						
+						<h:panelGroup rendered="#{pedidosBeans.selecaoCompraAblitada}">
+						<p>
+							<h:outputText value="Selecione um curso que deseja se inscrever">
+							</h:outputText>
+						</p>
+					 	
+						</h:panelGroup>
+						
+				 	<h:panelGrid >
+		
+<h:outputText value="#{pedidosBeans.cursos}" rendered="false" />
+
+		<p:panel header="Selecione as atividades"   id="painel_mcursos" > 
+			<h:form id="fcamisa" prependId="false">
+			
+			
+			
+			<p:dataTable id="tabelacurso" var="curso" value="#{pedidosBeans.cursos}"    
+                 selection="#{pedidosBeans.cursoPrincipal}" >
+  
+                 <p:column selectionMode="single" style="width:2%"   />  
+  
+		        <p:column headerText="Curso" >  
+		            #{curso.nome}  
+		        </p:column> 
+		        
+		        <p:column headerText="Preço" >  
+		            #{curso.preco}  
+		        </p:column>  
+            </p:dataTable>
+         		<p:commandButton value="Confirmar" action="#{pedidosBeans.configuraPedido}" ajax="false"></p:commandButton>
+         		
+         		
+			</h:form>
+		</p:panel>
+		
+		<div style="margin-top: 10px;">
+			<h:outputText value=" Curso Selecionado: #{pedidosBeans.cursoPrincipal.nome}" style="color: blue; "/>
+		</div>
+	</h:panelGrid>
+	
+				 
+	 </p:tab>
+	</p:tabView>
+	
+	
+    
+	
+	<p:messages autoUpdate="true" closable="true" ></p:messages>
+	
+	<p:dialog id="dialogConfirmacaoPedido"  widgetVar="confimacaoPedido"   
+              			width="500" height="170" modal="true" rendered="#{pedidosBeans.selecaoCompraAblitada}">
+              		<h:form>
+              			<p:growl id="exibeMensagensPedidos" showDetail="true" sticky="true" />
+              			<h:outputText value="Apos confirmar a inscrição nos minicursos, as escolhas não poderão ser alteradas."></h:outputText>
+              			<br />
+              			<br />
+              			<br />
+					 	<p:commandButton value="Confirmar" action="#{pedidosBeans.salvarPedido}" oncomplete="confimacaoPedido.hide()" 
+							update=":tab_tem1 :tela_compras :painelPagamento exibeMensagensPedidos"  ajax="false">
+							</p:commandButton>
+							
+							
+							<p:commandButton value="Cancelar inscricao" process="@this" onclick="confimacaoPedido.hide()"  style="margin-right: 20px;">
+							</p:commandButton>
+					</h:form>
+				 </p:dialog>
+	
+</h:body>
+
+</html>		 

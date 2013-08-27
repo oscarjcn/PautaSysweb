@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../resources/css/default.css" rel="stylesheet"
+		type="text/css" />
+	<link href="../resources/css/cssLayout.css" rel="stylesheet"
+		type="text/css" />
+	<title><h:outputText value="#{pedidosBeans.titulo}" /></title>
+</h:head>
+
+<h:body>
+				 <p:tabView style="width:730px; height:450px; ">
+				 	<p:tab title="Novo Pedido">
+				 	<h:panelGrid columns="2">
+		<p:panel header="Aquisição de Camisas" style="width: 335px"> 
+			<h:form id="fcamisa" prependId="false">
+				<h:panelGrid columns="2" styleClass="grid">
+					<h:outputText value="Tamanho :" />
+					<h:selectOneMenu value="#{pedidosBeans.item.produto}">
+					<f:selectItem itemLabel="-" noSelectionOption="true"/>
+						<f:selectItems value="#{pedidosBeans.camisas}" var="c" itemValue="#{c}"
+							itemLabel="#{c.descricao}" />
+					</h:selectOneMenu>
+
+					<h:outputText value="Quantidade :" />
+					<p:spinner value="#{pedidosBeans.item.quantidade}" size="5" min="1"/>
+					<p:commandButton action="#{pedidosBeans.reinit}" value="adicionar"
+						update="books2">
+						<p:collector value="#{pedidosBeans.item}"
+							addTo="#{pedidosBeans.items}" />
+					</p:commandButton>
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+		<p:panel header="Compra de Passagens" style="width: 335px"> 
+			<h:form id="form-prod" prependId="false">
+				<h:panelGrid columns="2" styleClass="grid"> 
+					<h:outputText value="Quantidade :" />
+					<h:selectOneMenu value="#{pedidosBeans.item.produto}">
+					<f:selectItem itemLabel="-" noSelectionOption="true"/>
+						<f:selectItems value="#{pedidosBeans.passagens}" var="c" itemValue="#{c}"
+							itemLabel="#{c.descricao}" />
+					</h:selectOneMenu>
+
+					<h:outputText value="Quantidade :" />
+					<p:spinner value="#{pedidosBeans.item.quantidade}" size="5" min="1"/>
+					<p:commandButton action="#{pedidosBeans.reinit}" value="adicionar"
+						update="books2">
+						<p:collector value="#{pedidosBeans.item}"
+							addTo="#{pedidosBeans.items}" />
+					</p:commandButton>
+
+				</h:panelGrid>
+
+			</h:form>
+			
+		</p:panel>
+	</h:panelGrid>
+	<h:form prependId="false">
+
+		<p:outputPanel id="books2">
+			<p:dataTable var="objeto" value="#{pedidosBeans.items}" id="tab_tem1">
+				<p:column headerText="Produto">
+					<h:outputText value="#{objeto.produto.nome}" />
+				</p:column>
+
+				<p:column headerText="Descrição">
+					<h:outputText value="#{objeto.produto.descricao}" />
+				</p:column>
+
+				<p:column headerText="Quantidade " >
+					<h:outputText value="#{objeto.quantidade}" />
+				</p:column>
+				<p:column headerText="Preço " footerText="TOTAL : #{pedidosBeans.totalPagar}" >
+				  
+					<h:outputText
+						value="#{objeto.produto.preco * objeto.quantidade}"  >
+						<f:convertNumber type="currency"  currencySymbol=''/>  
+						</h:outputText>
+				</p:column>
+				<p:column headerText="Operação">
+					<p:commandLink value="Remover" update="books2, tab_tem1">
+						<p:collector value="#{objeto}" removeFrom="#{pedidosBeans.items}" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+		<p:commandButton value="Gerar Pedido" action="#{pedidosBeans.salvarPedido}"></p:commandButton>
+	</h:form>		
+			
+			
+				 	
+				 	
+				 	</p:tab> 
+				 	<p:tab title="Pedidos realizados">
+				 	<h:form>
+				 	<p:dataTable value="#{pedidosBeans.pedidos}" var="obj">
+				 		<p:column headerText="Código" >
+				 			<h:outputText value="#{obj.id}" />
+				 		</p:column>
+				 		<p:column headerText="data pedido" >
+				 			<h:outputText value="#{obj.dataPedido}" />
+				 		</p:column>
+				 		
+				 		<p:column headerText="Validade pedido" >
+				 			<h:outputText value="#{obj.dataValidade}" />
+				 		</p:column>
+				 		<p:column headerText="Valor pedido" >
+				 			<h:outputText value="#{obj.valorPedido}" />
+				 		</p:column>
+				 	</p:dataTable>
+				 	</h:form>
+				 	
+				 	</p:tab> 
+				 	<p:tab title="Pedidos Expirados">
+				 	</p:tab> 
+				</p:tabView>
+				 
+				 
+				
+</h:body>
+
+</html>		 

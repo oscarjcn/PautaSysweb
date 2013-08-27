@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+	version="2.0">
+
+
+	<application>
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+		</locale-config>
+	</application>
+	
+	<lifecycle>  
+        <phase-listener>br.mpeg.drosofila.visao.GerenciaConexaoBanco</phase-listener>  
+	</lifecycle>
+	  
+	<application> <message-bundle>javax.faces.Messages_pt_BR</message-bundle>
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+			<supported-locale>pt_BR</supported-locale>
+		</locale-config>
+	</application>
+	 
+	<navigation-rule>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/sistema/proxpaginas/pagina1.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>errologin</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+		
+	</navigation-rule>
+	
+	<navigation-rule>
+	<navigation-case>
+			<from-outcome>homeRefresh</from-outcome>
+			<to-view-id>/sistema/proxpaginas/pagina1.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>sair</from-outcome>
+			<to-view-id>index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>listarprodutos</from-outcome>
+			<to-view-id>/administracao/produtos/lista.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>acessonegado</from-outcome>
+			<to-view-id>/administracao/principal/principal.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>acessoNegadoAcompanhante</from-outcome>
+			<to-view-id>/sistema/proxpaginas/pagina1.xhtml</to-view-id>
+			
+		</navigation-case>
+	</navigation-rule>
+	
+	
+	
+	<navigation-rule>
+	<navigation-case>
+			<from-outcome>listaInscritos</from-outcome>
+			<to-view-id>/administracao/listainscritos/inscritos.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+	<navigation-case>
+			<from-outcome>listaAtividades</from-outcome>
+			<to-view-id>/administracao/atividades/inscritos.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+	<navigation-case>
+			<from-outcome>resumos</from-outcome>
+			<to-view-id>/administracao/resumos/lista.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+		<!-- Definicao do arquivo de mensagens -->
+	
+	<application>
+		<resource-bundle>
+			<base-name>br.mpeg.drosofila.visao.Mensagem</base-name>
+			<!-- Var define nome do mapa de variaveis que contem as mensagens -->
+			<var>msgs</var>
+		</resource-bundle>
+	</application>
+	
+	<lifecycle>
+		<phase-listener>br.mpeg.drosofila.visao.padrao.ControleAcesso</phase-listener>
+	</lifecycle>
+	
+</faces-config>

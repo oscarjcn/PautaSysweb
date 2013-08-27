@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../resources/css/default.css" rel="stylesheet"
+		type="text/css" />
+	<link href="../resources/css/cssLayout.css" rel="stylesheet"
+		type="text/css" />
+	<title><h:outputText value="#{pedidosBeans.titulo}" /></title>
+</h:head>
+
+
+  
+<h:body>
+				 <p:tabView style="width:870px; height:550px; " id="tela_compras">
+				 	<p:tab title="Inscrição em atividade">
+				 	<h:outputText value="Status do pagamento da atividade" id="statusPagamentoMiniCursoRelatorio" 
+				 					rendered="#{not pagamentoBeans.pagamentoMiniCursoQuitado and pagamentoBeans.exibirMiniCurso}"
+				 					escape="false"> 
+				 	</h:outputText>
+						<b>
+						<h:outputText value="Pendente" id="statosPagamentoMinicursoPendenteRelatorio" style="color:red;" 
+						rendered="#{not pagamentoBeans.pagamentoMiniCursoQuitado and pagamentoBeans.exibirMiniCurso}" > </h:outputText>
+						<h:outputText value="Pago" id="statosPagamentoMiniCursoQuitadoRelatorio"  style="color:blue;" 
+						rendered="#{pagamentoBeans.pagamentoMiniCursoQuitado and  pagamentoBeans.exibirMiniCurso}"> </h:outputText>
+						</b>
+						
+						<h:panelGroup rendered="#{pedidosBeans.selecaoCompraAblitada}">
+						<p>
+							<h:outputText value="Caso desejado, inscreva-se em uma atividade (minicurso ou oficina no valor de R$ 30,00) 
+							selecionando duas opções e pague juntamente com o valor de inscrição no evento. Caso contrário clique em 'Pagamento'.">
+							</h:outputText>
+						</p>
+					 	<h:outputText value="A Comissão Organizadora poderá incluir ou excluir novas atividades na listagem conforme a necessidade durante o prazo de inscrições, todos os cadastrados serão informados de quaisquer novidades." > </h:outputText>
+						</h:panelGroup>
+						
+				 	<h:panelGrid >
+		<p:panel header="Selecione as atividades" rendered="#{pedidosBeans.selecaoCompraAblitada}" > 
+			<h:form id="fcamisa" prependId="false">
+				<h:panelGrid columns="2" styleClass="grid">
+					<h:outputText value="Primeira opção :" />
+					<h:selectOneMenu value="#{pedidosBeans.cursoPrincipal}" >
+					<f:selectItem itemLabel="-" noSelectionOption="true"/>
+						<f:selectItems value="#{pedidosBeans.cursos}" var="cprimario" itemValue="#{cprimario}"
+							itemLabel="#{cprimario.nome}" />
+					</h:selectOneMenu>
+					<h:outputText value="Segunda opção*:" />
+					<h:selectOneMenu value="#{pedidosBeans.cursoSecundario}">
+					<f:selectItem itemLabel="-" noSelectionOption="true"/>
+						<f:selectItems value="#{pedidosBeans.cursos}" var="csecundario" itemValue="#{csecundario}"
+							itemLabel="#{csecundario.nome}" />
+					</h:selectOneMenu>
+					<p:commandButton action="#{pedidosBeans.reinit}" value="Adicionar"
+						update="books2 :tela_compras">
+					</p:commandButton>
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+	</h:panelGrid>
+	
+	<h:outputText  rendered="#{pedidosBeans.selecaoCompraAblitada}" style="font-size: smaller;" 
+	value="*O participante será alocado para esta opção se, quando registrado seu pagamento, a primeira opção selecionada estiver com todas as vagas preenchidas. "></h:outputText>
+	
+	<p:outputPanel id="painelAvisoPedidoInscricao" rendered="#{not pedidosBeans.selecaoCompraAblitada}">
+	<p><h:outputText  
+		value="Sua inscrição na atividade escolhida foi enviada e não poderá ser alterada. 
+				Logo que confirmarmos seu pagamento, sua inscrição será efetivada. 
+				Para mais detalhes entre em contato pelo e-mail: c.organizadora.cbc@gmail.com ">
+	</h:outputText>
+	</p>
+	</p:outputPanel>
+	
+	
+	<h:form prependId="false" >
+		<p:outputPanel id="books2">
+			<p:dataTable var="objeto" value="#{pedidosBeans.items}" id="tab_tem1">
+						<f:facet name="header"> 
+				<h:outputText value="Atividades selecionadas"></h:outputText>
+			</f:facet>
+				<p:column headerText="Atividade">
+					<h:outputText value="#{objeto.produto.nome}" />
+				</p:column>
+
+				<p:column headerText="Descrição" rendered="false">
+					<h:outputText value="#{objeto.produto.descricao}" />
+				</p:column>
+
+				<p:column headerText="Prioridade " >
+					<h:outputText value="Primeira opção"  rendered="#{objeto.nivelPrioridade == 1}"/>
+					<h:outputText value="Segunda opção" rendered="#{objeto.nivelPrioridade == 2}" />
+				</p:column>
+				<p:column headerText="Preço" rendered="false">
+				  
+					<h:outputText
+						value="#{objeto.produto.preco}"  >
+						<f:convertNumber type="currency" />  
+						</h:outputText>
+				</p:column>
+				<p:column headerText="Operação" rendered="#{pedidosBeans.selecaoCompraAblitada}">
+					<p:commandLink value="Remover" update="books2, tab_tem1" >
+						<p:collector value="#{objeto}" removeFrom="#{pedidosBeans.items}" />
+						<f:setPropertyActionListener target="#{pedidosBeans.totalPagar}" value="#{pedidosBeans.totalPagar - (objeto.produto.preco * objeto.quantidade)}"></f:setPropertyActionListener>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+		
+<p:commandButton value="Gerar pagamento" process="@this" onclick="confimacaoPedido.show()" rendered="#{pedidosBeans.selecaoCompraAblitada}"></p:commandButton>
+		
+		
+				 <br/>
+				 <br/>
+				
+			
+			<h:form id="formComprovanteAtividade">
+				<h:panelGrid columns="2" id="areaEnvicoComprovanteAtividade" 
+				rendered="#{participanteBeans.inscricaoQuitada and not pagamentoBeans.pagamentoMiniCursoQuitado and not pedidosBeans.selecaoCompraAblitada}">
+				
+				 <h:panelGroup 
+				 rendered="#{participanteBeans.inscricaoQuitada and not pagamentoBeans.pagamentoMiniCursoQuitado and not pedidosBeans.selecaoCompraAblitada}">
+						<h:outputText value="Para finalizar sua inscrição na atividade escolhida efetue um "/>  
+						<b> <h:outputText value="depósito ou transferência bancária" /> </b>
+						<h:outputText value=" no valor de R$ 30,00 na"/> 
+						<b> <h:outputText value="Agência: 3702-8 Conta: 34389-7 do Banco do Brasil, razão social: James Tony Lee VII CBC." /> </b> 
+						<h:outputText value=" Em seguida envie o comprovante deste pagamento clicando no botão 'Localizar comprovante'." escape="true"/> 
+				</h:panelGroup>
+			
+						<h:panelGroup id="enviaComprovEsco" rendered="#{not pagamentoBeans.visualizarComprovAtividade}">
+						<p:growl id="mensagemEnvioComprovanteAtividade"></p:growl>
+							<p:fileUpload fileUploadListener="#{pagamentoBeans.manipuladorUploadComprovanteAtividade}"	mode="advanced" 
+											update="areaEnvicoComprovanteAtividade mensagemEnvioComprovanteAtividade" sizeLimit="2000000" 
+											allowTypes="doc,docx,pdf,jpg,jpeg" 
+											auto="true" 
+											uploadLabel="Localizar comprovante"	multiple="false" 
+											invalidFileMessage="As extensões de arquivo permitidas são: DOC, DOCX, PDF, JPG"
+											label="Localizar comprovante" required="true" requiredMessage="Arquivo é obrigatório" 
+											sizeExceedMessage="Arquivo é muito grande. Deve ter ate 2mb."
+											/>
+							<p:tooltip for="enviaComprovEsco" position="left center" targetPosition="right center"
+										value="formatos aceitos: pdf jpeg tiff bmp doc docx." showEffect="none"></p:tooltip>	
+						</h:panelGroup>
+															
+						<h:panelGroup id="visualisaComprovEsco" rendered="#{pagamentoBeans.visualizarComprovAtividade}">
+							<p:commandButton id="downloadComprovante" value="Visualizar" ajax="false">
+								<p:fileDownload value="#{pagamentoBeans.arquivoComprovanteAtividade}"></p:fileDownload>
+							</p:commandButton>
+							<p:commandButton value="Remover comprovante" ajax="false" update=":grupocomprovantepagamento" rendered="false"
+											action="#{pagamentoBeans.removerComprovanteAtividade}"></p:commandButton>
+						</h:panelGroup>
+				</h:panelGrid>
+			</h:form>
+			 
+		<h:messages ></h:messages>
+			</h:form>		
+				 	
+				 	</p:tab> 
+				 	<p:tab title="Pedidos realizados" rendered="false">
+				 	<h:form>
+				 	<p:dataTable value="#{pedidosBeans.pedidos}" var="obj"
+				 	paginator="true" rows="7" 
+				 	paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} ">
+				 		<p:column headerText="Código" >
+				 			<h:outputText value="#{obj.id}" />
+				 		</p:column>
+				 		<p:column headerText="data pedido" >
+				 			<h:outputText value="#{obj.dataPedido}" />
+				 		</p:column>
+				 		
+				 		<p:column headerText="Validade pedido" >
+				 			<h:outputText value="#{obj.dataValidade}" />
+				 		</p:column>
+				 		
+				 		<p:column headerText="Estado do pagamento" >
+				 			<h:outputText value="Pendente" id="produtoPagamentoPendente" style="color:red;" rendered="#{not obj.boleto.quitado}" > </h:outputText>
+							<h:outputText value="Pago" id="produtoPagamentoQuitado"  style="color:blue;" rendered="#{obj.boleto.quitado}"> </h:outputText>
+				 		</p:column>
+				 		<p:column>
+				 			 <p:commandButton value="Exibir detalhes" update=":detalhesCompraUsuario"
+				 			 oncomplete="detalhesPedidoDialog.show()"  title="Visualizar detalhes da compra.">  
+	                     		<f:setPropertyActionListener value="#{obj}" target="#{pedidosBeans.pedidoPardetalheCompra}" /> 
+                 			</p:commandButton> 
+				 		</p:column>
+				 		
+				 	</p:dataTable>
+				 	</h:form>
+				 	
+				 	</p:tab> 
+				</p:tabView>
+				 
+				 
+				 <p:dialog id="dialogdetalhescompra"  widgetVar="detalhesPedidoDialog"   
+              			width="820" height="500" modal="true">
+				 	
+				 </p:dialog>
+				 
+				<p:dialog id="dialogConfirmacaoPedido"  widgetVar="confimacaoPedido"   
+              			width="500" height="170" modal="true" rendered="#{pedidosBeans.selecaoCompraAblitada}">
+              		<h:form>
+              			<p:growl id="exibeMensagensPedidos" showDetail="true" sticky="true" />
+              			<h:outputText value="Apos confirmar a inscrição nos minicursos, as escolhas não poderão ser alteradas."></h:outputText>
+              			<br />
+              			<br />
+              			<br />
+					 	<p:commandButton value="Confirmar" action="#{pedidosBeans.salvarPedido}" oncomplete="confimacaoPedido.hide()" 
+							update=":tab_tem1 :tela_compras :painelPagamento exibeMensagensPedidos"  ajax="false">
+							</p:commandButton>
+							
+							
+							<p:commandButton value="Cancelar inscricao" process="@this" onclick="confimacaoPedido.hide()"  style="margin-right: 20px;">
+							</p:commandButton>
+					</h:form>
+				 </p:dialog>
+			 
+				 
+				
+</h:body>
+
+</html>		 

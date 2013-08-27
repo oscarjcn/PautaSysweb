@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns="http://www.w3.org/1999/xhtml"
+                template="../templateadministracao.xhtml">
+
+    <ui:define name="content">
+       
+		<p:panel id="tabela_resumos_do_revisor">
+       		
+       		<h:form id="form">
+				<h:panelGrid columns="1" cellpadding="5" rendered="#{administracaoBeans.administrador or administracaoBeans.coordenador}">
+				<h:panelGrid columns="2" cellpadding="5" >  
+					<h:outputText value="Revisor : " />  
+			        <h:selectOneMenu value="#{administracaoBeans.revisorSelecionado}" >  
+			            <f:selectItem itemLabel="Selecione um revisor" itemValue="" />  
+			            <f:selectItems value="#{administracaoBeans.revisores}" var="revisor" itemLabel="#{revisor.nome}" itemValue="#{revisor}"/>  
+			        </h:selectOneMenu>
+		        </h:panelGrid>  
+		        
+		        <p:commandButton action="#{administracaoBeans.atualizarListaResumoRevisor}" 
+		        				 value="Atualizar lista de resumos do revisor" update="tabelarevisaoresumos">
+				</p:commandButton>
+				</h:panelGrid>  
+				<div style="overflow: scroll; width:1000; height: 500px;">
+		    	<p:dataTable var="resumo" value="#{administracaoBeans.resumos}" widgetVar="tabelaResumos" 
+		             emptyMessage="Nenhum resumo foi encontrado." selection="#{administracaoBeans.resumosSelecionados}"
+		             id="tabelarevisaoresumos"
+		             paginator="true" rows="10"   
+		             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks}
+		              {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		             style="font-size: 0.8em; width:1300px;" rowsPerPageTemplate="5,10,15">
+		            
+		            <p:column  rendered="true" selectionMode="multiple"/>
+		            
+		
+		         <f:facet name="header">
+		         	<h:panelGrid columns="1">
+		         	<h:outputText value="Lista de Resumos"></h:outputText>
+		            <p:outputPanel>
+		                <h:outputText value="Buscar por todos os campos" />
+		                <p:inputText id="globalFilter" onkeyup="tabelaResumos.filter()" style="width:150px" />
+		            </p:outputPanel>
+		            </h:panelGrid>
+		        </f:facet>
+		        
+		        <p:column filterBy="#{resumo.participante.nome}"
+		                headerText="Primeiro autor" >
+		            <h:outputText value="#{resumo.participante.nome} - " />
+		            <h:outputText value="#{resumo.resumo.dataSubmissao}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
+		        </p:column>
+		        
+		        <p:column filterBy="#{resumo.resumo.demaisAutores}"
+		                headerText="Autor(es)" filterMatchMode="contains" >
+		            <h:outputText value="#{resumo.resumo.demaisAutores}"  escape="false"/>
+		        </p:column>
+		        <p:column headerText="Revisor"  filterBy="#{resumo.resumo.revisor.nome}">
+		            <h:outputText value="#{resumo.resumo.revisor.nome}" />
+		        </p:column>
+		
+		        <p:column filterBy="#{resumo.resumo.temaSelecionado.nome}" 
+		                headerText="Tema" >
+		            <h:outputText value="#{resumo.resumo.temaSelecionado.nome}" />
+		        </p:column>
+		        
+		        <p:column filterBy="#{resumo.resumo.titulo}"
+		                headerText="Título" >
+		            <h:outputText value="#{resumo.resumo.titulo}" escape="false" />
+		        </p:column>
+		        
+		        <p:column headerText="Conteúdo do resumo"  >
+		           <p:commandButton  value="Exibir detalhes"  update=":informacoes_resumo :resumoConteudo" title="Revisar" oncomplete="edresumo.show()">  
+		                  <f:setPropertyActionListener value="#{resumo.resumo}" 
+		                  							target="#{administracaoBeans.resumoParaRevisao}" />  
+		             	</p:commandButton> 
+		      </p:column>
+		        
+				<p:column headerText="Revisão"  filterBy="#{resumo.resumo.statusResumo.nome}">
+		            <h:outputText rendered="#{resumo.resumo.statusResumo.nome == 'Revisado'}" value="Devolvido para correções - " />
+		            <h:outputText  value="#{resumo.resumo.statusResumo.nome}" /> 
+		        </p:column>
+		        
+		        <p:column rendered="false" headerText="Demais autores"  >
+		            <h:outputText value="#{resumo.resumo.demaisAutores}" />
+		        </p:column>
+		        
+		        <p:column filterBy="#{resumo.participante.email}"
+		                headerText="E-mail do autor" >
+		            <h:outputText value="#{resumo.participante.email}" />
+		        </p:column>
+		        
+		        <p:column filterBy="#{resumo.resumo.indicacaoOral}"
+		                headerText="Indicado para apresentação oral" >
+		            <h:outputText value="Sim"  rendered="#{resumo.resumo.indicacaoOral}" />
+		            <h:outputText value="Não"  rendered="#{not resumo.resumo.indicacaoOral}" />
+		        </p:column>
+		        
+		    </p:dataTable>
+		    </div>
+		</h:form>
+       	</p:panel>
+       	
+       	 <p:dialog widgetVar="edresumo" width="750" height="500" modal="true" 
+       	  header="Informações do resumo" closable="false" dynamic="true" onShow="editorConteudoResumo.init()">
+       	 	<p:panel id="informacoes_resumo">
+				<h:form> 
+					<div style="background-color: gray; color: white;  ">
+						<b><h:outputText  value="Status do resumo: #{administracaoBeans.resumoParaRevisao.statusResumo.nome}"></h:outputText></b>
+					</div>
+					<br />
+					<h:outputLabel for="formapresentacao" value="Forma de apresentação indicada pelo autor:" />
+           	   		<h:panelGroup>
+            	   		<h:selectOneMenu value="#{administracaoBeans.resumoParaRevisao.formaApresentacao}" disabled="true"
+            	   		id="formapresentacao">
+            	   			<f:selectItem itemLabel="Selecione uma forma" itemValue=""></f:selectItem>
+            	   			<f:selectItem itemLabel="Painel" itemValue="Painel"></f:selectItem>
+            	   			<f:selectItem itemLabel="Oral" itemValue="Oral"></f:selectItem>
+            	   		</h:selectOneMenu>
+           	   		</h:panelGroup>
+           	   		<br />
+					<h:outputText value="selecionar status do resumo: " />
+					<p:selectOneRadio  
+									   value="#{administracaoBeans.statusResumoSelecionado}" required="true" 
+									   requiredMessage="Insira um status para o resumo ou click em 'Fechar'." >
+						<f:selectItems value="#{administracaoBeans.statusResumo}" ></f:selectItems>
+						<p:ajax update="testesbotao painelcomentario comentario" />
+					</p:selectOneRadio>
+				
+					<h:outputLabel for="indicar_oral" value="Indicar para apresentação oral:" />
+           	   		<h:panelGroup>
+            	   		<h:selectBooleanCheckbox value="#{administracaoBeans.resumoParaRevisao.indicacaoOral}"  id="indicar_oral">
+            	   		</h:selectBooleanCheckbox>
+           	   		</h:panelGroup>
+           	   		<br />
+           	   		<br />
+					
+					
+					<p:panel id="painelcomentario">
+						<f:facet name="header">
+							<h:outputText value="Comentario do resumo :"></h:outputText>
+						</f:facet>
+					
+						<p:inputTextarea rows="10" cols="75"
+								value="#{administracaoBeans.resumoParaRevisao.comentarioResumo}"
+								autoResize="false"  
+								id="comentario"
+								disabled="#{administracaoBeans.statusResumoSelecionado == 'Aprovado'}"
+								validator="br.museugoeldi.valida.comentario.resumo" >
+						</p:inputTextarea>
+					</p:panel>
+					<p:commandButton 	
+						rendered="#{administracaoBeans.revisor or administracaoBeans.coordenador}"
+						update="resumoConteudo tabela_resumos_do_revisor mensagens_adm_resumo_usuario" 
+						action="#{administracaoBeans.atualizaConteudoResumo}" 	
+						ajax="true" value="Atualizar status do resumo"
+						disabled="#{administracaoBeans.resumoParaRevisao.statusResumo.nome != 'Enviado' 
+									and administracaoBeans.resumoParaRevisao.statusResumo.nome != 'Reenviado'
+									and not administracaoBeans.coordenador}"
+						oncomplete="fecharArearevisaoResumo(xhr, status, args)">
+					</p:commandButton>
+	
+					<p:commandButton action="home" ajax="true" id="botao_cancela_alteracao_resumo" process="@this"
+						onclick="if(confirm('As alterações não serão salvas. Deseja fechar o editor de resumo?')) edresumo.hide();" 
+						value="Fechar" > 
+					</p:commandButton>
+					<p:commandButton id="downloadResumo" value="Baixar arquivo resumo" ajax="false" >
+						<p:fileDownload value="#{administracaoBeans.resumoParaRevisao.streamedArquivoResumo}"></p:fileDownload>
+					</p:commandButton>
+					<div style="width: 100%">Resumo: </div>
+					
+					<p:editor 
+						value="#{administracaoBeans.resumoParaRevisao.conteudo}"  language="pt" 
+						id="resumoConteudo"
+						widgetVar="editorConteudoResumo"  
+						disabled="true"  lazy="true" width="650" height="600" required="true"  
+						requiredMessage="Conteudo do resumo não pode estar vazio"  
+						controls="" />
+				</h:form>
+				<script type="text/javascript">
+						function fecharArearevisaoResumo(xhr, status, args) {
+							if(!args.validationFailed) {
+								edresumo.hide();
+							}
+						}
+
+						</script>
+						<p:growl id="mensagens_adm_resumo_usuario" showDetail="true" sticky="true" /> 
+       	 	</p:panel>
+       	 </p:dialog>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Entrar - Sistema de Avaliação de Desempenho</title>
+        <link href="../css/style.css" rel="stylesheet" type="text/css" />
+       
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form id="login-form" >
+                
+                <fieldset>
+		
+			<legend>Log teste</legend>
+			
+			<label for="login">Email</label>
+                        <h:inputText id="login" value="#{autenticacao.loginName}" required="true"/>
+			<div class="clear"></div>
+			
+			<label for="password">Senha</label>
+                        <h:inputSecret id="password" value="#{autenticacao.password}" required="true"/>
+                        <div class="clear"></div>
+            <h:outputText rendered="#{autenticacao.primeiraVez}" styleClass="label" value="Confirmação da Senha"/>
+                <h:inputSecret rendered="#{autenticacao.primeiraVez}" id="password2" value="#{autenticacao.senhaConfirmacao}" title="Password" />           
+			<div class="clear"></div>
+			
+			<label for="remember_me" style="padding: 0;">Remember me?</label>
+			<input type="checkbox" id="remember_me" style="position: relative; top: 3px; margin: 0; " name="remember_me"/>
+			<div class="clear"></div>
+			
+			<br />
+                        <h:commandButton action="#{autenticacao.doLogin}" style="margin: -20px 0 0 287px;" styleClass="button" value="Log in"/>	
+		</fieldset>
+                
+            </h:form>
+            
+        </f:view>
+    </h:body>
+</html>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<link href="../../resources/css/default.css" rel="stylesheet"
+		type="text/css" />
+	<link href="../../resources/css/cssLayout.css" rel="stylesheet"
+		type="text/css" />
+	<title></title>
+</h:head>
+
+<h:body>
+
+				
+				
+				 	<h:form id="formSair">
+				 		<p:menubar style="height: 25px;" id="menugeral">
+
+					<p:menuitem url="../../sistema/proxpaginas/pagina1.jsf" value="Cadastro" ></p:menuitem>
+					<p:menuitem url="../../sistema/proxpaginas/pagina4.jsf" value="MINI CURSOS PRÉ-CONGRESSO" 
+				 				rendered="#{Usuario.participante != null}" >
+				 	</p:menuitem>
+				 	<p:menuitem url="../../sistema/proxpaginas/pagina2.jsf" value="Pagamento#{pagamentoBeans.titulo}" 
+				 				rendered="#{Usuario.participante != null }" >
+				 	</p:menuitem>
+				 	<p:menuitem url="../../sistema/proxpaginas/pagina3.jsf" 
+				 				value="#{resumoBeans.titulo}" 
+				 				rendered="#{Usuario.participante != null and false}">
+				 	</p:menuitem>
+					<p:menuitem url="../../administracao/principal/principal.jsf" rendered="#{Usuario.administrador}" 
+								value="&Aacute;rea administrativa">
+					</p:menuitem>
+				 	<p:menuitem url="../../sistema/proxpaginas/alterarsenha.jsf" value="Alterar senha" ></p:menuitem>				 			
+				 			
+				 			<p:menuitem action="#{index.logOut}" value="SAIR" ></p:menuitem>
+				 		</p:menubar>
+				 	</h:form>
+				
+				 
+				 
+			 	<div id="conteudo">
+				 <ui:insert name="content">
+				 		
+				 </ui:insert>
+				 </div>
+		
+</h:body>
+
+</html>		 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="drosofila" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <properties>
+      
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+      
+      <!-- <property name="hibernate.connection.url" value="jdbc:mysql://mysql.pautapromocoes.com.br:3306/pautapromocoes01?autoReconnect=true"/>
+      <property name="hibernate.connection.username" value="pautapromocoes01"/>
+      <property name="hibernate.connection.password" value="ojneto"/> -->
+      
+      
+      <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/pautapromocoes?autoReconnect=true"/>
+      <property name="hibernate.connection.username" value="root"/>
+      <property name="hibernate.connection.password" value="root"/>
+        
+        <!--<property name="hibernate.connection.url" value="jdbc:mysql://saturno.museu-goeldi.br:3306/crustacio?autoReconnect=true"/>
+      <property name="hibernate.connection.username" value="ppbio"/>
+      <property name="hibernate.connection.password" value="PPBio_2011_05"/>  
+      --><property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="hibernate.show_sql" value="false"/> 
+      <property name="hibernate.format_sql" value="false"/>
+      
+         
+      <property name="hibernate.hbm2ddl.auto" value="none"/>
+      <property name="hibernate.connection.autocommit" value="false" />
+      <property name="hibernate.c3p0.min_size" value="5"/>
+      <property name="hibernate.c3p0.max_size" value="20"/>
+      <property name="hibernate.c3p0.timeout" value="100"/> <!-- 300 -->
+      <property name="hibernate.c3p0.max_statements" value="50"/>
+      <property name="hibernate.c3p0.idle_test_period" value="3000"/> <!-- 3000 -->
+      
+      <property name="hibernate.c3p0.testConnectionOnCheckout" value="true"/>
+      <property name="hibernate.c3p0.testConnectionOnCheckin" value="true"/>
+      
+      <property name="hibernate.connection.autoReconnect" value="true"></property>
+	  <property name="hibernate.connection.autoReconnectForPools" value="true"></property>
+      
+		<!-- <attribute name="MaxIdleTime">15</attribute> 
+		<attribute name="TestConnectionOnCheckin">true</attribute>
+		<attribute name="TestConnectionOnCheckout">true</attribute>
+		<attribute name="UnreturnedConnectionTimeout">15</attribute> -->
+      
+    </properties>
+  </persistence-unit>
+</persistence>

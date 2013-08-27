@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				
+                template="../templateadministracao.xhtml">
+
+
+    <ui:define name="content">
+       <h:outputText value="teste"></h:outputText>
+       <h:outputText value="teste"></h:outputText>
+       
+		<p:panel>
+       		<h:outputText value="Lista de inscritos"></h:outputText>
+       		<h:form id="form">
+
+		    	<p:dataTable var="participante" value="#{administracaoBeans.participantes}" widgetVar="tabelaParticipante" 
+		            emptyMessage="Participante não foi encontrado.">
+		
+		         <f:facet name="header">
+		            <p:outputPanel>
+		                <h:outputText value="Buscar por todos os campos" />
+		                <p:inputText id="globalFilter" onkeyup="tabelaParticipante.filter()" style="width:150px" />
+		            </p:outputPanel>
+		        </f:facet>
+		
+		        <p:column filterBy="#{participante.nome}" 
+		                headerText="Nome" >
+		            <h:outputText value="#{participante.nome}" />
+		        </p:column>
+		
+		        
+		        <p:column filterBy="#{participante.instituicao.nome}"
+		                headerText="Instituição" >
+		            <h:outputText value="#{participante.instituicao.nome}" />
+		        </p:column>
+		                
+		        <p:column filterBy="#{participante.indicador.nome}"
+		                headerText="Tipo De Cadastro" >
+		            <h:outputText value="#{participante.indicador.nome}" />
+		        </p:column>
+		        
+		        <p:column filterBy="#{participante.telefone}"
+		                headerText="Telefone" >
+		            <h:outputText value="#{participante.telefone}" />
+		        </p:column>
+		
+		        <p:column filterBy="#{participante.email}" 
+		                headerText="E-mail"  >
+		            <h:outputText value="#{participante.email}" />
+		        </p:column>
+		
+		        <p:column filterBy="#{participante.formacao}"
+		                headerText="Formação" >
+		            <h:outputText value="#{participante.formacao}" />
+		        </p:column>
+				
+				<p:column headerText="Compra" >
+		             <p:commandButton value="Exibir detalhes" update=":form :detalhesCompra" oncomplete="carDialog.show()"  title="Edit">  
+	                     <f:setPropertyActionListener value="#{participante}" target="#{administracaoBeans.participante}" />  
+                 	</p:commandButton> 
+		        </p:column>
+		        
+		        
+		    </p:dataTable>
+		    
+		</h:form>
+       	</p:panel>
+       	
+       	 
+       	 <p:dialog header="Detalhes da compra" widgetVar="carDialog" resizable="true" id="carDlg"  
+              width="600" modal="true"> 
+              
+              <p:panel id="detalhesCompra">
+              <h:form>
+	              <p:dataTable value="#{administracaoBeans.participante.pedidos}" var="pedido">
+					
+					<p:column headerText="codigo">
+	              			<h:outputText value="#{pedido.id}"></h:outputText>
+	              	</p:column>
+	
+					<p:column headerText="Valor">
+						<h:outputText value="#{pedido.valorPedido}"></h:outputText>
+					</p:column>
+					
+					<p:column headerText="Valor">
+						<h:outputText value="#{pedido.dataPedido}"></h:outputText>
+					</p:column>
+					
+					<p:column>
+						<p:dataTable value="#{pedido.itemsCompra}" var="itemCompra">
+						
+							<p:column>
+								<h:outputText value="#{itemCompra.quantidade}"></h:outputText>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{itemCompra.produto.nome}"></h:outputText>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{itemCompra.produto.descricao}"></h:outputText>
+							</p:column>
+
+						</p:dataTable>
+					</p:column>
+	
+	              	<p:column headerText="Compra paga">             		
+              			<h:selectBooleanCheckbox value="#{pedido.boleto.quitado}"></h:selectBooleanCheckbox>
+	              	</p:column>
+	              </p:dataTable>
+	              
+	                      
+			                <p:outputPanel  layout="block" style="text-align:right">  
+			                    <p:commandButton value="Salvar" update="cars msgs" actionListener="#{administracaoBeans.salvarPedido}" />  
+			                    
+			                    <p:commandButton value="Cancel" onclick="carDialog.hide()" type="button" />  
+			  
+			                </p:outputPanel>  
+			             
+              </h:form>
+              </p:panel>
+
+
+  
+            </p:dialog> 
+              
+       	
+       	
+    </ui:define>
+</ui:composition>

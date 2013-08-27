@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	
+	
+	<title>Carcinologia</title>
+</h:head>
+
+<h:body>
+
+				
+				<p:panel>
+				 	<h:form id="formSair">
+				 		<p:menubar >
+				 			<p:menuitem url="../administracao/principal/principal.jsf" rendered="#{Usuario.administrador}" value="&Aacute;rea administrativa"></p:menuitem>
+				 			<p:menuitem url="../../sistema/proxpaginas/alterarsenha.jsf" value="Alterar senha" ></p:menuitem>
+				 			
+				 			
+
+				 	<p:menuitem url="../../sistema/proxpaginas/pagina1.jsf" value="Cadastro" ></p:menuitem>
+				 	<p:menuitem url="../../sistema/proxpaginas/pagina4.jsf" value="Minicurso / Oficina" ></p:menuitem>	
+				 	<p:menuitem url="../../sistema/proxpaginas/pagina2.jsf" value="Pagamento" rendered="false"></p:menuitem>
+				 	<p:menuitem url="../../sistema/proxpaginas/pagina3.jsf" value="&Aacute;rea para envio de #{resumoBeans.titulo}" ></p:menuitem>
+				 			<p:menuitem action="#{index.logOut}" value="SAIR"></p:menuitem>
+				 		</p:menubar>
+				 	</h:form>
+				
+				 
+				 
+			 	<div>
+				 <ui:insert name="content">
+				 		<ui:include src="../../participante/cadastro.xhtml" />
+				 </ui:insert>
+				 </div>
+			
+		</p:panel>
+</h:body>
+
+</html>		 

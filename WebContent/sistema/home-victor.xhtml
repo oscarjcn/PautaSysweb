@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../resources/css/default.css" rel="stylesheet"
+		type="text/css" />
+	<link href="../resources/css/cssLayout.css" rel="stylesheet"
+		type="text/css" />
+	<title>Drosóphila</title>
+</h:head>
+
+<h:body>
+	<!-- corpo -->
+	<div>
+	<!-- esquerda -->
+		
+		<div>
+			<!-- conteudo -->
+			<div id="content" class="right_content"><center>
+				 <p:panel id="geral" header="Bem vindo  #{Usuario.nome}, controle de cadastro do Evento De Drosóphila " style="width:800px; height:600px;"  
+				 footer="Museu Paraense Emilio Goeledi">
+				 <f:facet name="header">
+				 	<h:form id="formSair">
+				 		<h:outputText value="Bem vindo,  #{Usuario.nome} ao Evento De Drosóphila "></h:outputText>
+				 		
+				 		<h:commandLink action="#{index.logOut}" style="float:right">SAIR</h:commandLink>
+				 	</h:form>
+				 </f:facet>
+				 
+				 <p:tabView effect="opacity" effectDuration="normal">
+				 	<p:tab title="Dados Participante" id="dados-participante">
+				 		<ui:include src="/participante/cadastro.xhtml" />
+				 	</p:tab>
+				 	<p:tab title="#{resumoBeans.titulo}" id="dados-resumos" rendered="#{Usuario.participante != null and true }">
+				 		<ui:include src="/resumo/cadastro.xhtml"></ui:include>
+				 	</p:tab>
+				 	<p:tab title="Compras de Camisas e Passagens" id="dados-compras" rendered="#{Usuario.participante != null  and true }">
+				 		<ui:include src="/compras/cadastro.xhtml"></ui:include>
+				 	
+				 	</p:tab>
+				 </p:tabView>
+				 
+				 </p:panel></center>
+			</div>
+		</div>
+	</div>
+</h:body>
+
+</html>		 

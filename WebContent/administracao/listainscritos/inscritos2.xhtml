@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				
+                template="../templateadministracao.xhtml">
+
+
+    <ui:define name="content">
+       <h:outputText value="teste"></h:outputText>
+       <h:outputText value="teste"></h:outputText>
+       
+		<p:panel>
+       		<h:outputText value="Lista de inscritos"></h:outputText>
+       		<h:form>
+
+		    	<p:dataTable var="participante" value="#{tableBean.listaParticipantes}" widgetVar="tabelaParticipante" 
+		            emptyMessage="Participante não foi encontrado.">
+		
+		         <f:facet name="header">
+		            <p:outputPanel>
+		                <h:outputText value="Buscar por todos os campos" />
+		                <p:inputText id="globalFilter" onkeyup="tabelaParticipante.filter()" style="width:150px" />
+		            </p:outputPanel>
+		        </f:facet>
+		
+		        <p:column filterBy="#{participante.nome}" 
+		                headerText="Nome" >
+		            <h:outputText value="#{participante.nome}" />
+		        </p:column>
+		
+		        
+		        <p:column filterBy="#{participante.instituicao}"
+		                headerText="Instituição" >
+		            <h:outputText value="#{participante.instituicao}" />
+		        </p:column>
+		                
+		        <p:column filterBy="#{participante.indicador}"
+		                headerText="Tipo De Cadastro" >
+		            <h:outputText value="#{participante.indicador}" />
+		        </p:column>
+		        
+		        <p:column filterBy="#{participante.telefone}"
+		                headerText="Telefone" >
+		            <h:outputText value="#{participante.telefone}" />
+		        </p:column>
+		
+		        <p:column filterBy="#{participante.email}" 
+		                headerText="E-mail"  >
+		            <h:outputText value="#{participante.email}" />
+		        </p:column>
+		
+		        <p:column filterBy="#{participante.formacao}"
+		                headerText="Formação" >
+		            <h:outputText value="#{participante.formacao}" />
+		        </p:column>
+		        
+		    </p:dataTable>
+		    
+		</h:form>
+       	</p:panel>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				
+                template="../templateadministracao.xhtml">
+
+
+    <ui:define name="content">
+       
+		<p:panel id="painelderesumos2">
+       		
+       		<h:form id="formresumo2">
+				
+				
+		    	<p:dataTable var="resumo" value="#{administracaoBeans.resumos}" widgetVar="tabelaResumos2" 
+		             paginator="true" rows="10"  >
+		            
+		           
+		        
+		        <p:column filterBy="#{resumo.participante.nome}"
+		                headerText="Primeiro autor" >
+		            <h:outputText value="#{resumo.participante.nome}" />
+		        </p:column>
+		        <p:column filterBy="#{resumo.participante.email}"
+		                headerText="E-mail do autor" >
+		            <h:outputText value="#{resumo.participante.email}" />
+		        </p:column>
+		        
+		        <p:column filterBy="#{resumo.participante.formacao}"
+		                headerText="Formação" >
+		            <h:outputText value="#{resumo.participante.formacao}" />
+		        </p:column>
+		
+		        <p:column filterBy="#{resumo.resumo.tema}" 
+		                headerText="Tema" >
+		            <h:outputText value="#{resumo.resumo.tema}" />
+		        </p:column>
+		
+		        
+		        <p:column filterBy="#{resumo.resumo.titulo}"
+		                headerText="Tidulo" >
+		            <h:outputText value="#{resumo.resumo.titulo}" />
+		        </p:column>
+		                
+		        <p:column filterBy="#{resumo.resumo.demaisAutores}"
+		                headerText="Autor/autores" filterMatchMode="contains" >
+		            <h:outputText value="#{resumo.resumo.demaisAutores}" />
+		        </p:column>
+		        
+		        <p:column headerText="Revisor"  filterBy="#{resumo.resumo.revisor.nome}">
+		            <h:outputText value="#{resumo.resumo.revisor.nome}" />
+		        </p:column>
+		        
+		        <p:column rendered="false" headerText="Demais autores"  >
+		            <h:outputText value="#{resumo.resumo.demaisAutores}" />
+		        </p:column>
+		        
+				<p:column headerText="Compra" >
+		             <p:commandButton value="Exibir detalhes"   title="Revisar" update=":vamosverrrr :painelderesumos2" >  
+	                     <f:setPropertyActionListener target="#{administracaoBeans.conteudoResumo}" value="#{resumo.resumo.conteudo}"></f:setPropertyActionListener>
+                 	</p:commandButton> 
+                 	
+		        </p:column>
+		        
+		    </p:dataTable>
+		    <h:outputText value="#{administracaoBeans.conteudoResumo}" id="vamosverrrr"></h:outputText>
+		</h:form>
+		
+       	</p:panel>
+      
+       	
+              
+       	
+       	
+    </ui:define>
+</ui:composition>

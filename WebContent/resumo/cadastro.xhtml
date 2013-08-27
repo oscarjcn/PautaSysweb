@@ -1,0 +1,367 @@
+<?xml version='1.0'  ?> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; " />
+	<link href="../resources/css/default.css" rel="stylesheet"
+		type="text/css" />
+	<link href="../resources/css/cssLayout.css" rel="stylesheet"
+		type="text/css" />
+	<title><h:outputText value="#{resumoBeans.titulo}" /></title>
+</h:head>
+
+<h:body>
+<f:view >
+	<h:form enctype="multipart/form-data" id="form-resumo" acceptcharset="ISO-8859-1"	>
+						<p:growl id="messages2" showDetail="true" />
+						
+						<p:panel header="Novo Resumo">
+							
+							<h:panelGrid columns="2" id="grid" style="width:600; margin-botom: 25px;">
+								
+								
+								<h:outputLabel for="resumotema" value="Tema :" />
+		              	   		<h:selectOneMenu value="#{resumoBeans.resumo.temaSelecionado}"  id="resumotema" required="true" requiredMessage="Tema é obrigatório">
+		              	   			<f:selectItem itemLabel="Selecione um tema " itemValue="" ></f:selectItem>
+		              	   			<f:selectItems value="#{resumoBeans.temas}" var="tema" itemValue="#{tema}" itemLabel="#{tema.nome}"></f:selectItems>
+		              	   		</h:selectOneMenu>
+		              	   		
+		              	   		<h:outputLabel for="formapresentacao" value="Preferência de apresentação:" />
+		              	   		<h:panelGroup>
+			              	   		<h:selectOneMenu value="#{resumoBeans.resumo.formaApresentacao}" id="formapresentacao">
+			              	   			<f:selectItem itemLabel="Painel" itemValue="Painel"></f:selectItem>
+			              	   			<f:selectItem itemLabel="Oral" itemValue="Oral"></f:selectItem>
+			              	   		</h:selectOneMenu>
+		              	   			<p:tooltip for="formapresentacao" 
+		              	   			value="Escolha a forma de preferência de apresentação. 
+		              	   			A Comissão Científica do VII CBC reserva-se o direito de mudar a modalidade de Apresentação ou sugerir a troca da mesma ao(s) autor(es)."></p:tooltip>
+		              	   		</h:panelGroup>
+		              	   		</h:panelGrid>
+		              	   		<h:panelGroup style="margin: 15px 0 15px 0; display: block;">
+			              	   		<p style="margin: 0 2px 0 2px;">Serão aceitos resumos somente em Português, Inglês e Espanhol. </p> 
+			              	   		<p style="margin: 0 2px 0 2px;">Veja as demais normas para os resumos <a href="http://marte.museu-goeldi.br/viicbc/index.php/inscricoes/normas" target="_blanck">aqui</a>.</p>
+			              	   		<p style="margin: 0 2px 0 2px;">
+			              	   		Instruções para submissão de resumo no sistema 
+			              	   		<p:commandLink ajax="true" onclick="linkInstruresumo.show();" style="" >aqui</p:commandLink>.
+			              	   		</p>
+			              	   			(Posicione o cursor sobre o campo para mais detalhes)
+			              	   			<p:dialog widgetVar="linkInstruresumo" width="525" height="458" resizable="false" modal="true">
+			              	   				<h:graphicImage value="/sistema/imagem/Instrucoes_resumo.jpg"></h:graphicImage>
+			              	   			</p:dialog>
+		              	   		</h:panelGroup>
+		              	   		
+		              	   		<h:panelGrid columns="3" id="grid2" style="width:600;">		              	   		
+								<h:outputLabel for="resumo-tit" value="Título:" />	
+															
+								<p:editor
+			              	   		value="#{resumoBeans.resumo.titulo}"
+			              	   		language="pt" disabled="false"  width="580" height="65"  
+			              	   		id="tituloresumo" 
+			              	   		required="true"
+			              	   		validator="br.museugoeldi.valida.campos.resumo"
+			              	   		requiredMessage="Titulo é obrigatório"
+			              	   		widgetVar="tituloresumo"  
+			              	   		controls="italic pastetext subscript superscript" >
+		              	   		</p:editor>
+		              	   		<h:panelGroup>
+		              	   			<p:tooltip for="tituloresumo"
+		              	   			position="bottom center" targetPosition="top center" 
+		              	   			value="Escrever o título em caixa alta. Nomes científicos devem ser digitados em itálico, utilizando a ferramenta de formatação do formulário eletrônico. Não utilizar nome de autores e datas para os componentes taxonômicos no título."></p:tooltip>
+		              	   			<p:commandLink ajax="true" onclick="linktitulo.show();" style="" >exemplo</p:commandLink>
+		              	   			
+		              	   			<p:dialog widgetVar="linktitulo" width="650" height="458" resizable="false" modal="true">
+		              	   				<h:graphicImage value="/sistema/imagem/titulo.jpg"></h:graphicImage>
+		              	   			</p:dialog>
+		              	   		</h:panelGroup>
+		              	   		
+		              	   		<h:outputLabel for="demaisautores" value="Autor(es):" />
+								<p:editor
+			              	   		value="#{resumoBeans.resumo.demaisAutores}"
+			              	   		language="pt" disabled="false" width="580" height="65"  
+			              	   		id="demaisautores" 
+			              	   		widgetVar="editoremail"  
+			              	   		validator="br.museugoeldi.valida.campos.resumo"
+			              	   		controls="italic pastetext subscript superscript" >
+		              	   		</p:editor>
+		              	   		<h:panelGroup>
+		              	   			<p:tooltip for="demaisautores" value="O primeiro autor deverá obrigatoriamente ser o proprietário desta inscrição no VII CBC. Insira os autores separados com ponto-e-vírgula já com os respectivos números de instituição sobrescritos e um asterisco para o e-mail de contato (apenas em um dos autores) conforme o exemplo." 
+		              	   						position="bottom center" targetPosition="top center" ></p:tooltip>
+		              	   			<p:commandLink ajax="true" onclick="linkAutores.show();"  >exemplo</p:commandLink>
+		              	   			<p:dialog widgetVar="linkAutores" width="650" height="458" resizable="false" modal="true">
+		              	   				<h:graphicImage value="/sistema/imagem/Autores.jpg"></h:graphicImage>
+		              	   			</p:dialog>
+		              	   		</h:panelGroup>
+		              	   		
+		              	   		
+		              	   		
+								<h:outputLabel for="resumoEmails" value="Instituições/Email:" />
+								<p:editor
+			              	   		value="#{resumoBeans.resumo.emails}"
+			              	   		language="pt" disabled="false"  width="580" height="65"  
+			              	   		id="resumoEmails" 
+			              	   		widgetVar="editoremail"  
+			              	   		validator="br.museugoeldi.valida.campos.resumo"
+			              	   		controls="italic pastetext subscript superscript" >
+		              	   		</p:editor>
+		              	   		<h:panelGroup>
+		              	   			<p:tooltip for="resumoEmails" value="Insira a sigla da instituição já com o número sobrescrito respectivo a cada autor e separada com ponto-e-vírgula. Coloque um asterisco seguido do e-mail de contato conforme o exemplo."
+		              	   					position="bottom center" targetPosition="top center"></p:tooltip>
+		              	   			<p:commandLink ajax="true" onclick="linkEmail.show();"  >exemplo</p:commandLink>
+		              	   			<p:dialog widgetVar="linkEmail" width="650" height="458" resizable="false" modal="true">
+		              	   				<h:graphicImage value="/sistema/imagem/Institu.jpg"></h:graphicImage>
+		              	   			</p:dialog>
+		              	   		</h:panelGroup>
+		              	   		
+		              	   		<h:outputLabel for="resumoCont" value="Resumo:" />
+		              	   		<p:editor
+			              	   		value="#{resumoBeans.resumo.conteudo}"
+			              	   		language="pt" disabled="false" width="580" height="370"  
+			              	   		id="resumoCont" 
+			              	   		widgetVar="editorConteudoResumo"  
+			              	   		validator="br.museugoeldi.valida.resumo"
+			              	   		controls="italic pastetext justify subscript superscript" >
+			              	   		
+		              	   		</p:editor>
+		              	   		<h:panelGroup>
+		              	   			<p:tooltip for="resumoCont" position="bottom center" targetPosition="top center"
+		              	   			value="Insira o texto em um parágrafo. 
+		              	   			Após o texto, em linha separada do resumo, deverá ser incluída sigla da agência financiadora do projeto (se houver) e respectivo número do processo que deu origem ao resumo. Revise cuidadosamente o texto se o recurso “copiar-colar” for utilizado e clique em Salvar Texto."></p:tooltip>
+		              	   			<p:commandLink process="none" ajax="true" onclick="linkCont.show();"  >exemplo</p:commandLink>
+		              	   			<p:dialog widgetVar="linkCont" width="650" height="458" resizable="false" modal="true">
+		              	   				<h:graphicImage value="/sistema/imagem/Conteudo.jpg"></h:graphicImage>
+		              	   			</p:dialog>
+		              	   		</h:panelGroup>
+		              	   		
+		              	   		
+		              	   		</h:panelGrid>
+		              	   		<h:panelGrid columns="2">
+		              	   			<h:outputText value=""></h:outputText>
+		              	   			<h:outputText value="O arquivo do resumo a ser inserido deve seguir a formatação conforme o modelo:"></h:outputText> 
+		              	   			<a  href="${pageContext.request.contextPath}/crustacio/sistema/arquivos/Modelo_resumo.docx" style="width: 100px;" >Baixar modelo</a>
+		              	   		</h:panelGrid>
+		              	   		<h:panelGrid columns="2" id="grid3" style="width:600;  margin-top: 5px; margin-bottom: -10px;" cellspacing="10">
+									 
+
+								<h:outputLabel for="resumo-cpf" rendered="false" value="CPF AUTOR PRINCIPAL (Autor principal deve estar cadastrado no sistema):" />
+								<p:inputText value="#{resumoBeans.resumo.cpfAutor}" size="40" rendered="false"
+									required="false" id="resumo-cpf" requiredMessage="CPF do autor é obrigatorio" />
+
+		
+								
+								 <h:outputLabel for="arquivoresumo" value="Inserir arquivo texto:" />
+								 <h:panelGroup style="width: 550px; display: block;">
+		              	   		<p:fileUpload	fileUploadListener="#{resumoBeans.handleFileUpload}" mode="advanced" style="width: 150px;"
+									update="idarquivo nomeArquivoresumo" sizeLimit="2000000"	allowTypes="doc,docx" auto="true" id="arquivoresumo"
+									uploadLabel="Pesquisar"	multiple="false" invalidFileMessage="As extensões de arquivo permitidas são: DOC e DOCX"
+									label="Localizar arquivo" required="true" requiredMessage="Arquivo é obrigatório" 
+									sizeExceedMessage="Arquivo é muito grande. Deve ter ate 2mb."
+									 />
+									 
+									 <h:outputText id="nomeArquivoresumo" value="#{resumoBeans.nomeArquivoSelecionado}"></h:outputText>
+								 </h:panelGroup>
+								 
+								<h:outputText value="Adicionar na lista de resumos:"></h:outputText>
+								<h:panelGrid>
+									<p:commandButton action="#{resumoBeans.reinitResumo}"
+										rendered="#{not resumoBeans.atualizarResumo}" 		
+										value="Adicionar" id="botaoAdicionarResumo"
+										update="table-resumo messages2 form-resumo">
+
+									</p:commandButton>
+									<p:tooltip for="botaoAdicionarResumo" value="Após adicionar clique em 'Submeter para análise' para enviar à avaliação!"></p:tooltip>
+								</h:panelGrid>
+								<h:panelGrid>
+									<p:commandButton action="#{resumoBeans.reinitResumo}"
+										rendered="#{resumoBeans.atualizarResumo}"  
+										value="Salvar alterações" ajax="false" id="salvarAlteracoes"
+										update="table-resumo messages2 :formTabelaResumo form-resumo">
+										<p:collector value="#{resumoBeans.resumo}" 
+											addTo="#{resumoBeans.resumos}" />
+									</p:commandButton>
+									<p:tooltip value="Certifique-se que o arquivo de texto enviado contém as alterações realizadas." 
+												for="salvarAlteracoes"></p:tooltip>
+								</h:panelGrid>
+								<p:commandButton action="#{resumoBeans.cancelar}"
+									rendered="#{resumoBeans.atualizarResumo}"  
+									value="Cancelar alterações"
+									update="form-resumo">
+								</p:commandButton>
+								
+								<f:facet name="footer">
+									<h:panelGrid columns="1" id="gridMessage">
+										<h:messages ></h:messages>
+									</h:panelGrid>
+								</f:facet>
+							</h:panelGrid>
+						</p:panel>
+							
+							
+				</h:form>
+				<h:form id="formTabelaResumo">
+							
+
+
+						<p:outputPanel id="resumo" autoUpdate="true">
+
+							<p:dataTable var="objeto" value="#{resumoBeans.resumos}" selectionMode="single" id="table-resumo">
+								
+								
+								<p:column headerText="1° Autor / Id"  style="width: 120px;" >
+									<h:outputText value="#{resumoBeans.participante.nomeDeAutor} / " />
+									<h:outputText value="#{objeto.cpfAutor}" />
+								</p:column>
+									
+								<p:column headerText="Tema / Título">
+									<p><h:outputText value="Tema: #{objeto.temaSelecionado.nome}" escape="false" /></p>
+								
+									<h:outputText value="Título: #{objeto.titulo}" escape="false" />
+								</p:column>
+									
+								<p:column style="width: 80px;" headerText="Visualizar">
+						            <p> <p:commandButton  value="Visualizar conteúdo"  update=":edicao_resumo_usuario " 
+						              					title="Revisar" oncomplete="usuarioedresumo.show()">
+							              <f:setPropertyActionListener value="#{objeto}" 
+						                     		target="#{resumoBeans.resumoSelecionado}" />    
+				                 	</p:commandButton>
+						        	</p>
+							        <p:commandButton id="downloadComprovante" value="Visualizar arquivo" ajax="false">
+								         <f:setPropertyActionListener value="#{objeto}" 
+								                     		target="#{resumoBeans.resumoSelecionado}" /> 
+										<p:fileDownload value="#{resumoBeans.streamedArquivoResumo}"></p:fileDownload>
+									</p:commandButton>
+								</p:column>
+							   
+						        <p:column headerText="Status da revisão" style="width: 160px;">
+										<p><h:outputText value="#{objeto.statusResumo.nome}: #{objeto.statusResumo.descricao}" /></p>
+										<p:commandLink onclick="exibirComentarioResumo.show()" update=":comentarioResumo" value="Ver comentários" ajax="true">
+											<f:setPropertyActionListener target="#{resumoBeans.comentarioResumo}" value="#{objeto.comentarioResumo}"></f:setPropertyActionListener>
+										</p:commandLink>
+								</p:column>
+								<p:column style="width: 120px; text-align: center;" headerText="Operação">
+									<h:panelGroup   >
+							             <p:commandButton	disabled="#{objeto.statusResumo.nome != 'Pendente' and objeto.statusResumo.nome != 'Revisado'}"
+							               value="Editar resumo"  update=":form-resumo :form_painel_envio_resumo" ajax="false"
+							              					title="Revisar" action="#{resumoBeans.preparaAtualizaResumo}">
+								              <f:setPropertyActionListener value="#{objeto}" 
+							                     		target="#{resumoBeans.resumo}" />    
+					                 	</p:commandButton>
+						        
+						     
+						     		<p>
+						             <p:commandButton  
+						             		value="Submeter para análise" style="font-weight: bold;"  
+						             		action="#{resumoBeans.atualizaConteudoResumoEdicao}"
+											update=":mensagens_adm_resumo_usuario resumo"
+											disabled="#{objeto.statusResumo.nome != 'Pendente'}"
+						              		title="Revisar">
+							              <f:setPropertyActionListener value="#{objeto}" 
+						                     		target="#{resumoBeans.resumoSelecionado}" />    
+				                 	</p:commandButton>
+						     		</p>
+									<p:commandButton value="Remover" onclick="painelremover.show();"	
+													update="form resumo" rendered="false"
+													disabled="#{objeto.statusResumo.nome == 'Enviado' or objeto.statusResumo.nome == 'Aprovado'}"> 
+														<f:setPropertyActionListener value="#{objeto}" 
+														target="#{resumoBeans.resumoSelecionado}" />
+											</p:commandButton>
+									</h:panelGroup>
+								</p:column>
+								
+							</p:dataTable>
+							
+						</p:outputPanel>
+					
+				</h:form>
+				
+				<p:dialog widgetVar="painelremover">
+					<h:form>
+					
+						<h:outputText value="Você tem certeza que deseja remover o resumo? Todas as informações serão apagadas! "></h:outputText>
+						<p:commandButton value="Remover" action="#{resumoBeans.excluirResumo}" 				
+													update="form resumo" ajax="false" > 
+											</p:commandButton>
+					</h:form>
+				</p:dialog>
+				
+				
+				<p:dialog widgetVar="exibirComentarioResumo" width="600" height="250">
+					<p:panel id="comentarioResumo">
+					#{resumoBeans.comentarioResumo}
+					</p:panel>
+				</p:dialog>
+				
+				<p:dialog header="Conteúdo do resumo" widgetVar="carDialog"  id="carDlg"  onShow="editorConteudoResumo.init();" 
+              width="800" modal="true" height="550" appendToBody="true">
+              	   <h:form id="form_painel_envio_resumo"> 
+              	   <p:panel id="painel_envio_resumo">
+              	   
+              	   		
+              	   		<p:commandButton  
+              	   		action="#{resumoBeans.atualizaConteudoResumo}" 
+              	   		update="mensagens_adm_resumo_usuario2 "
+              	   		ajax="true" value="Salvar texto" process="@form, resumoConteudo"
+              	   		oncomplete="fecharAreaInsercaoResumo(xhr, status, args)">
+              	   		</p:commandButton>
+              	 
+              	   		<p:editor
+	              	   		value="#{resumoBeans.conteudoResumo}"
+	              	   		language="pt" disabled="false"  lazy="true" width="730" height="400"  
+	              	   		id="resumoConteudo" 
+	              	   		widgetVar="editorConteudoResumo"  
+	              	   		validator="br.museugoeldi.valida.resumo"
+	              	   		controls="italic pastetext justify subscript superscript" >
+	              	   		
+              	   		</p:editor>
+              	   </p:panel>
+              	   </h:form>
+              	   <p:growl id="mensagens_adm_resumo_usuario2" showDetail="true" sticky="true" /> 
+               </p:dialog>
+               
+         <p:dialog widgetVar="usuarioedresumo" width="749" height="458" modal="true"
+          			onShow="visualizadorConteudoResumo.init();"         		     	   		
+			          id="dialogo_edicao_resumo_usuario"
+			       	  header="Editar resumo"  dynamic="true" >
+       	 	<p:panel id="edicao_resumo_usuario">
+       	 		<h:outputText value="Status: #{resumoBeans.resumoSelecionado.statusResumo.nome}"></h:outputText>
+				<h:form id="form_edit_resumo_usuario">
+					
+				
+				
+				<p:editor
+	              	   		value="#{resumoBeans.resumoSelecionado.conteudo}"
+	              	   		language="pt" disabled="false"  lazy="true" width="730" height="400"  
+	              	   		id="visualizadorConteudoResumo" 
+	              	   		widgetVar="visualizadorConteudoResumo"  
+	              	   		controls="" >
+	              	   		
+              	   		</p:editor>
+				
+				
+				
+						<p:growl id="mensagens_adm_resumo_usuario" showDetail="true" sticky="true" /> 
+				</h:form>
+						<script type="text/javascript">
+						function fecharAreaEdicaoResumo(xhr, status, args) {
+							if(!args.validationFailed) {
+								usuarioedresumo.hide();
+							}
+						}
+						function fecharAreaInsercaoResumo(xhr, status, args) {
+							if(!args.validationFailed) {
+								carDialog.hide();
+							}
+						}
+						</script>
+                
+       	 	</p:panel>
+       	 </p:dialog>
+		</f:view>
+		
+</h:body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:p="http://primefaces.prime.com.tr/ui" 
+    xmlns:h="http://java.sun.com/jsf/html"> 
+ 
+<h:head> 
+<ui:param name="participanteBeans" value="#{participanteBeans}" /> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+    <link href="../resources/css/default.css" rel="stylesheet" 
+        type="text/css" /> 
+    <link href="../resources/css/cssLayout.css" rel="stylesheet" 
+        type="text/css" /> 
+    <title><h:outputText value="#{participanteBeans.titulo}" /></title> 
+</h:head> 
+ 
+<h:body> 
+                 <h:form prependId="false"> 
+ 
+                     <h:panelGrid columns="2"> 
+                         <h:outputText value="NOME :" /> 
+        <p:inputText value="#{participanteBeans.participante.nome}" required="true" size="70" requiredMessage="é necessário cadastrar o nome"> 
+         
+        <f:validateLength minimum="5"></f:validateLength> 
+        </p:inputText> 
+ 
+        <h:outputText value="CPF :" /> 
+        <p:inputText value="#{participanteBeans.participante.cpf}" required="true" size="70" requiredMessage="é necessário cadastrar o CPF"> 
+ 
+        </p:inputText> 
+ 
+        <h:outputText value="EMAIL :" /> 
+        <p:inputText value="#{participanteBeans.participante.email}" required="true" size="70"  requiredMessage="é obrigatório cadastrar o email" validatorMessage="email invalido"> 
+        </p:inputText> 
+ 
+        <h:outputText value="TELEFONE :" /> 
+        <p:inputMask mask="(99) 9999-9999" value="#{participanteBeans.participante.telefone}" required="true" size="70" requiredMessage="é necessário cadastrar o TELEFONE"/> 
+ 
+        <h:outputText value="FORMAÇÃO :" /> 
+        <p:inputText value="#{participanteBeans.participante.formacao}" required="true" size="70" requiredMessage="é necessário cadastrar a formação"/> 
+ 
+        <h:outputText value="Quem lhe indicou ? :" /> 
+ 
+        <h:selectOneRadio value="#{participanteBeans.indicador}"> 
+            <f:selectItems value="#{participanteBeans.indicadores}" var="it" itemValue="#{it}" 
+                itemLabel="#{it.nome}" /> 
+        </h:selectOneRadio> 
+        <h:outputLabel value="INSTITUIÇÃO :" for="acSimple" /> 
+        <p:autoComplete id="acSimple" value="#{participanteBeans.instituicao}" var="inst" 
+            itemLabel="#{inst.nome}" itemValue="#{inst}" 
+            completeMethod="#{participanteBeans.completaNome}"  size="70"/> 
+ 
+        <h:outputText value="ESTADO :" /> 
+         
+            <h:selectOneMenu value="#{participanteBeans.estado}" binding="#{it}"  required="true"  requiredMessage="Selecione um estado"  > 
+                <f:selectItem itemLabel="Selecione um Estado" itemDisabled="true"/> 
+                <f:selectItems value="#{participanteBeans.estados}" var="it" itemValue="#{it}"  
+                    itemLabel="#{it.nome}" > 
+ 
+                </f:selectItems> 
+                <p:ajax update="municipiosx"   listener="#{participanteBeans.carregaMunicipios}" /> 
+            </h:selectOneMenu> 
+             
+         
+ 
+        <h:outputText value="MUNICIPIOS :" /> 
+        <h:selectOneMenu value="#{participanteBeans.municipio}"  id="municipiosx" required="true" requiredMessage="Selecione um Municipio"> 
+            <f:selectItems value="#{participanteBeans.municipios}" var="it" itemValue="#{it}" 
+                itemLabel="#{it.nome}" /> 
+        </h:selectOneMenu> 
+ 
+        <h:outputText value="LOGRADOURO :" /> 
+        <p:inputText value="#{participanteBeans.endereco.logradouro}" size="70"/>  
+ 
+        <h:outputText value="COMPLEMENTO :" /> 
+        <p:inputText value="#{participanteBeans.endereco.complemento}" size="70"/> 
+ 
+        <h:outputText value="BAIRRO :" /> 
+        <p:inputText value="#{participanteBeans.endereco.bairro}" size="70"/> 
+ 
+        <h:outputText value="CEP :" /> 
+        <p:inputMask mask="99999-999" value="#{participanteBeans.endereco.cep}" size="70"/> 
+        <h:outputText value="Cadastro :" /> 
+        <p:commandButton value="Cadastrar" action="#{participanteBeans.editar}" update="geral"/> 
+                 </h:panelGrid> 
+                  
+                 </h:form> 
+                 
+ 
+</h:body> 
+ 
+</html>   

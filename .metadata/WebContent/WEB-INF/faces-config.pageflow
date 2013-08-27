@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13106703823050" configfile="/crustacio-old/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="122" y="178" id="pf13106719425431" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" outlinks="pf13122295081161 pf13311298766170" inlinks="pf13122295081161" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="1138" id="pf13107377186644" outlinks="pf13116062227180 pf13307137481834 pf13311298766171 pf13319321355440 pf13321921616721 pf13424675552806 pf13424675552807 pf13425357041161" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/produtos/lista.xhtml" x="338" y="562" id="pf13116062227183" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf13116062227180" path="/administracao/produtos/lista.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="1714" id="pf13307137481835" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf13307137481834" path="index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="sistema/proxpaginas/home.xhtml" x="338" y="178" id="pf13311298766172" referenceLink="//@navigationRule.5/@navigationCase.0/@toViewId|" inlinks="pf13311298766170 pf13311298766171 pf13321921616721" path="/sistema/proxpaginas/pagina1.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/principal/principal.xhtml" x="122" y="1810" id="pf13317373924571" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" inlinks="pf13424675552806" path="/administracao/listainscritos/inscritos.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/principal/principal.xhtml" x="338" y="2098" id="pf13319321355451" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" inlinks="pf13319321355440" path="/administracao/principal/principal.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/atividades/inscritos.xhtml" id="pf13424675552808" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" inlinks="pf13424675552807" path="/administracao/atividades/inscritos.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/resumos/lista.xhtml" id="pf13425357041162" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" inlinks="pf13425357041161" path="/administracao/resumos/lista.xhtml"/>
+  <links id="pf13116062227180" target="pf13116062227183" source="pf13107377186644" outcome="listarprodutos" redirect="true"/>
+  <links id="pf13307137481834" target="pf13307137481835" source="pf13107377186644" outcome="sair" redirect="true"/>
+  <links id="pf13311298766170" target="pf13311298766172" source="pf13106719425431" outcome="sucesso" redirect="true"/>
+  <links id="pf13311298766171" target="pf13311298766172" source="pf13107377186644" outcome="homeRefresh"/>
+  <links id="pf13319321355440" target="pf13319321355451" source="pf13107377186644" outcome="acessonegado" redirect="true"/>
+  <links id="pf13122295081161" target="pf13106719425431" source="pf13106719425431" outcome="errologin">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+  <links id="pf13321921616721" target="pf13311298766172" source="pf13107377186644" outcome="acessoNegadoAcompanhante"/>
+  <links id="pf13424675552806" target="pf13317373924571" source="pf13107377186644" outcome="listaInscritos"/>
+  <links id="pf13424675552807" target="pf13424675552808" source="pf13107377186644" outcome="listaAtividades"/>
+  <links id="pf13425357041161" target="pf13425357041162" source="pf13107377186644" outcome="resumos"/>
+</pageflow:Pageflow>

@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				
+                template="../templateadministracao.xhtml">
+
+
+    <ui:define name="content">
+       
+		<p:panel>
+       		<h:outputText value="Lista de Resumos"></h:outputText>
+       		<h:form id="form">
+
+		    	<p:dataTable var="resumo" value="#{administracaoBeans.resumos}" widgetVar="tabelaResumos" 
+		            emptyMessage="Participante não foi encontrado.">
+		
+		         <f:facet name="header">
+		            <p:outputPanel>
+		                <h:outputText value="Buscar por todos os campos" />
+		                <p:inputText id="globalFilter" onkeyup="tabelaResumos.filter()" style="width:150px" />
+		            </p:outputPanel>
+		        </f:facet>
+		        
+		        <p:column filterBy="#{resumo.participante.nome}"
+		                headerText="Primeiro autor" >
+		            <h:outputText value="#{resumo.participante.nome}" />
+		        </p:column>
+		        <p:column filterBy="#{resumo.participante.email}"
+		                headerText="E-mail do autor" >
+		            <h:outputText value="#{resumo.participante.email}" />
+		        </p:column>
+		        
+		        <p:column filterBy="#{resumo.participante.formacao}"
+		                headerText="Formação" >
+		            <h:outputText value="#{resumo.participante.formacao}" />
+		        </p:column>
+		
+		        <p:column filterBy="#{resumo.resumo.tema}" 
+		                headerText="Tema" >
+		            <h:outputText value="#{resumo.resumo.tema}" />
+		        </p:column>
+		
+		        
+		        <p:column filterBy="#{resumo.resumo.titulo}"
+		                headerText="Tidulo" >
+		            <h:outputText value="#{resumo.resumo.titulo}" />
+		        </p:column>
+		                
+		        <p:column filterBy="#{resumo.resumo.demaisAutores}"
+		                headerText="Demais autores" >
+		            <h:outputText value="#{resumo.resumo.demaisAutores}" />
+		        </p:column>
+		        
+		        <p:column filterBy="#{resumo.resumo.caminhoArquivo}"
+		                headerText="Arquivo" >
+		            <h:outputText value="#{resumo.resumo.caminhoArquivo}" />
+		        </p:column>
+		        
+		    </p:dataTable>
+		    
+		</h:form>
+       	</p:panel>
+       	
+       	 
+       	
+              
+       	
+       	
+    </ui:define>
+</ui:composition>

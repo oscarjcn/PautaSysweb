@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+<ui:param name="participanteBeans" value="#{participanteBeans}" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../resources/css/default.css" rel="stylesheet"
+		type="text/css" />
+	<link href="../resources/css/cssLayout.css" rel="stylesheet"
+		type="text/css" />
+	<title><h:outputText value="#{participanteBeans.titulo}" /></title>
+</h:head>
+
+<h:body>
+	
+	<f:view encoding="UTF-8">
+	
+	<h:form prependId="false" id="formParticipante">
+
+
+
+
+		<h:panelGrid columns="1" style="margin:10px 0 10px 0; padding-left: 7px; " cellpadding="5">
+			<h:outputText value="Preencha o formulário abaixo selecionando sua categoria de pagamento e clique em cadastrar. No
+			caso de sócios ######, insira seu número de sócio no campo especificado para ter acesso ao desconto,
+			somente sócios com a anuidade de 2012 em dia terão desconto. Para não sócios ou sócios em débito,
+			deixar o campo em branco." rendered="#{not participanteBeans.inscricaoQuitada} AND FALSE" ></h:outputText>
+			<h:panelGroup  layout="block" >
+				<h:outputText value="Status do pagamento da inscrição:" id="statusPagamento" escape="false"> </h:outputText>
+				<b>
+				<h:outputText value="Pendente" id="statosPagamentoPendente" style="color:red;" rendered="#{not participanteBeans.inscricaoQuitada}" > </h:outputText>
+				<h:outputText value="Pago" id="statosPagamentoQuitado"  style="color:blue;" rendered="#{participanteBeans.inscricaoQuitada}"> </h:outputText>
+				</b>
+			</h:panelGroup>
+		</h:panelGrid>
+		
+		<h:panelGrid columns="2" cellpadding="2" style="padding-left: 7px">
+		<h:outputText value="Nome:" />
+		<h:panelGroup  layout="block"> 		
+			<p:inputText value="#{participanteBeans.participante.nome}"  id="nomeParticipante" style="padding-right: 5px;"
+			required="true"  requiredMessage="Informe o nome" size="50" maxlength="65">
+			
+			<f:validateLength minimum="5"></f:validateLength>
+			</p:inputText>
+			
+		</h:panelGroup>
+		
+		<h:outputText value="Nome no crachá:" />
+		<p:inputText value="#{participanteBeans.participante.nomeNoCrachar}" required="true" id="nome_no_cracha" 
+						validatorMessage="Nome no crachá deve ter mais que 3 letras." requiredMessage="Informe o nome no crachá" maxlength="25" size="26">
+			<f:validateLength minimum="3" maximum="25" ></f:validateLength>
+		</p:inputText>
+		
+		<h:outputText value="Sócio?" />
+		<h:panelGroup  layout="block" > 		
+			<p:selectOneRadio value="#{participanteBeans.ehSocio}" id="valorEhSocio"> 
+				<f:selectItem itemLabel="Sim" itemValue="true" />
+				<f:selectItem itemLabel="Não" itemValue="false" />
+				<p:ajax update="selectTipoDeInscricao" />
+			</p:selectOneRadio>
+			<p:tooltip for="valorEhSocio"  showEvent="mouseover" hideEvent="mouseout" showEffect="none"
+			value="ATENÇÃO: SOMENTE CLIQUE SIM SE ESTIVER EM DIA COM A ANUIDADE DE 2013. CASO CONTRÁRIO MARQUE “NÃO” E SOLICITE A SUA ATUALIZAÇÃO DIRETAMENTE JUNTO A ABRH-PA: TEL:     EMAIL:" 
+			position="left center" targetPosition="right center" >
+
+			</p:tooltip>
+		</h:panelGroup>
+		
+		<h:outputText value="Número de sócio*:" rendered="false" />
+		<h:panelGroup  layout="block" rendered="false">
+		<p:inputText value="#{participanteBeans.numeroAssociado}"    maxlength="25" size="26" id="numeroSocio">
+			<p:ajax event="blur" update="selectTipoDeInscricao"></p:ajax>
+		</p:inputText>
+		
+			<p:tooltip for="numeroSocio"  showEvent="focus" hideEvent="blur" showEffect="none"
+			position="left center" targetPosition="right center" >
+				<h:outputText style="color: red;" value="Somente preencha se está com a anuidade de 2012 em dia com a SBC"></h:outputText>
+					<h:outputText value=", qualquer
+					problema nesta questão entre em contato com tesoureirosbc@gmail.com ou visite o site da SBC."></h:outputText>
+
+			</p:tooltip>
+		</h:panelGroup>
+		<h:outputText value="" rendered="false"></h:outputText>
+		<h:outputText rendered="false" value="*Caro Sócio,utilize o mesmo e-mail da sua associação aqui no cadastro  para que
+possamos liberar a área de pagamento de inscrição no seu cadastro como sócio, você será avisado via e-mail."></h:outputText>
+		
+
+		<h:outputText value="RG:" />
+		<h:panelGroup  layout="block">
+		<p:inputText value="#{participanteBeans.rg}" id="rg" requiredMessage="Informe o RG" 
+			validator="br.museugoeldi.valida.RG.CPF" required="true"
+			maxlength="25" size="26">
+		</p:inputText>
+					<p:tooltip for="rg"  showEvent="focus" hideEvent="blur" showEffect="none"
+			value="Obrigatório para brasileiros (Not necessary for foreigners)." 
+			position="left center" targetPosition="right center" >
+
+			</p:tooltip>
+		</h:panelGroup>
+		
+		
+		<h:outputText value="CPF:" />
+		<h:panelGroup  layout="block">
+		<p:inputText value="#{participanteBeans.cpf}" required="true" requiredMessage="Informe o CPF"
+			validator="br.museugoeldi.valida.RG.CPF"
+		id="CPF" maxlength="11" size="26" >
+			<f:validateLength maximum="11" minimum="11"></f:validateLength>
+		</p:inputText>
+			<p:tooltip for="CPF"  showEvent="focus" hideEvent="blur" showEffect="none"
+				value="Obrigatório para brasileiros (Not necessary for foreigners)." 
+				position="left center" targetPosition="right center" >
+	
+				</p:tooltip>
+			</h:panelGroup>
+		
+		<h:outputText value="Passaporte:" rendered="false" />
+		<h:panelGroup  layout="block" rendered="false">
+		<p:inputText value="#{participanteBeans.passaporte}" 
+			validator="br.museugoeldi.valida.passaport" id="passaport"
+		 maxlength="25" size="26">
+		</p:inputText>
+		<p:tooltip for="passaport"  showEvent="focus" hideEvent="blur" showEffect="none"
+				value="Necessário somente para estrangeiros (Necessary for foreigners)" 
+				position="left center" targetPosition="right center" >
+				</p:tooltip>
+		</h:panelGroup>
+
+
+
+		<h:outputText value="E-mail:" />
+		<h:panelGroup  layout="block">
+		<p:inputText value="#{participanteBeans.participante.email}" required="true" maxlength="200" 
+		size="26" id="email" 
+		requiredMessage="Informe o o email" validatorMessage="email invalido">
+			<p:ajax update="selectTipoDeInscricao" />
+		</p:inputText>
+		<p:tooltip for="email"  showEvent="focus" hideEvent="blur" showEffect="none"
+				value="Digite um e-mail válido, ele será o seu e-mail de entrada no sistema do Congresso de gestão de pessoas. Você receberá
+uma confirmação neste endereço sobre seu cadastro no evento." 
+				position="left center" targetPosition="right center" >
+				</p:tooltip>
+			</h:panelGroup>
+		
+		<h:outputText value="Pagamento" rendered="false"/>
+		<p:selectOneRadio rendered="false" value="#{participanteBeans.parcelamento}" disabled="#{participanteBeans.inscricaoQuitada}" >
+			<f:selectItems value="#{participanteBeans.opcoesParcelamento}"></f:selectItems>
+			<p:ajax update="selectTipoDeInscricao" />
+		</p:selectOneRadio>
+		
+		<h:outputText value="Tipo de inscrição:" />
+		<h:selectOneMenu value="#{participanteBeans.indicador}" required="true" id="selectTipoDeInscricao"
+		requiredMessage="Informe o tipo de Inscrição" disabled="#{participanteBeans.inscricaoQuitada}"  var="tipoInscri">
+			<f:selectItem itemLabel="Selecione um Tipo de Inscrição"  itemValue=""/>
+			
+			<f:selectItems value="#{participanteBeans.indicadores}" var="it" itemValue="#{it}"
+				itemLabel="#{it.nome} - R$ #{it.valor}0" />
+				
+		</h:selectOneMenu>
+		
+		<h:outputLabel value="Instituição:" for="acSimple" />
+		<p:inputText value="#{participanteBeans.nomeInstituicao}" size="26"></p:inputText>
+		
+		<h:outputLabel value="Instituição no crachá:" for="acSimple"  />
+		<p:inputText value="#{participanteBeans.participante.nomeInstCrachar}" maxlength="25" size="26"></p:inputText>
+		
+		<h:outputLabel value="Sigla da instituição:" for="siglainst"  />
+		<p:inputText value="#{participanteBeans.participante.siglaDaInstituicao}" id="siglainst" maxlength="15" size="26"></p:inputText>
+
+		
+		<h:outputText value="Estado/País:" />
+		<p:inputText value="#{participanteBeans.participante.estadopais}" id="estadopais" size="50" maxlength="65" required="true"  requiredMessage="Informe o Estado/País"/>
+		
+		<h:outputText value="Município:" />
+		<p:inputText value="#{participanteBeans.endereco.complemento}" id="municipio" size="50" maxlength="65" required="true"  requiredMessage="Informe o Município"/>
+
+		<h:outputText value="Endereço:" />
+		<p:inputText value="#{participanteBeans.endereco.logradouro}" size="50" maxlength="65"/> 
+		
+		<h:outputText value="CEP:" />
+		<p:inputText  value="#{participanteBeans.endereco.cep}" />
+
+		<h:outputText value="DDD - Telefone :" />
+		<p:column>
+			<p:inputText  value="#{participanteBeans.participante.ddd}"  size="3" maxlength="2"/> -
+			<p:inputText  value="#{participanteBeans.participante.telefone}" /> 
+		</p:column>
+
+		
+
+				 </h:panelGrid>
+				 <p:messages></p:messages>
+				 <p:commandButton value="Cadastrar" oncomplete="window.scroll(0,5000)"  action="#{participanteBeans.editar}" update="formParticipante :painelPagamento :formSair:menugeral" />
+				 
+				 </h:form>
+				</f:view>
+
+</h:body>
+
+</html>		 

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns="http://www.w3.org/1999/xhtml"
+                template="home.xhtml">
+
+
+    <ui:define name="content">
+    	<h:panelGroup  rendered="#{pagamentoBeans.associadoOkOuNaoSocio}">
+			<ui:include src="../../pagamento/gerar.xhtml" />	
+		</h:panelGroup>
+		<h:panelGroup  rendered="#{not pagamentoBeans.associadoOkOuNaoSocio}">
+			<h:outputText value="Você inseriu um número de sócio: #{participanteBeans.participante.numeroSocio}"></h:outputText>
+			<br/>
+			<h:outputText value="Por favor aguarde a confirmação do seu cadastro de sócio do grupo de carcinologia para que possa efetuar o pagamento."></h:outputText>
+		</h:panelGroup>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../resources/css/default.css" rel="stylesheet"
+		type="text/css" />
+	<link href="../resources/css/cssLayout.css" rel="stylesheet"
+		type="text/css" />
+	<title>Cadastro Carcinologia</title>
+</h:head>
+
+<h:body>
+	<!-- corpo -->
+	<div>
+		<div>
+			<!-- conteudo -->
+			<div id="content" class="right_content">
+				<ui:insert name="content">
+					<div id="padrao">
+						<p:panel id="titulo">
+							<h:outputText value="#{view.titulo}" />
+						</p:panel>
+
+						<p:panel id="geral">
+							
+
+							<h:panelGrid
+								rendered="#{view.renderizaCadastro or view.renderizaEdicao}"
+								id="cadastro" width="100%">
+								
+
+										<ui:insert name="pageBody" />
+									
+							</h:panelGrid>
+
+							<h:panelGrid id="lista" rendered="#{view.renderizaLista}"
+								style="margin:0;padding:0" width="100%">
+								<h:form id="form-lista">
+									<p:commandButton value="Novo" action="#{view.exibeCadastro}"
+										update="geral" />
+
+									<p:dataTable paginator="true" selectionMode="single"
+										onRowSelectUpdate="geral" emptyMessage="Nenhum Registro"
+										rows="20" id="perfis-table" var="objeto"
+										value="#{view.modelo}">
+										<p:column headerText=" ">
+											<h:selectBooleanCheckbox value="false" />
+										</p:column>
+										<p:column headerText="Sequencial">
+											<h:outputText value="#{objeto.id}" />
+										</p:column>
+
+										<ui:insert name="pageList" />
+
+										<p:column headerText="Opções" binding="#{objeto}">
+											<p:commandLink action="#{view.inicioEditar}" value="Editar"
+												update="geral" />
+											<h:outputText value=" | " />
+											<p:commandLink action="#{view.inicioRemover}" value="Excluir"
+												update="geral" />
+										</p:column>
+									</p:dataTable>
+								</h:form>
+							</h:panelGrid>
+							<h:panelGrid id="remover" rendered="#{view.renderizaExclusao}"
+								style="width: 100%">
+								<h:form id="form-delete">
+									<h1>
+										Essa operacao Remove
+										<ui:insert name="pageDelete" />
+
+										e todos os seus dados , você tem certeza ?
+									</h1>
+
+									<p:commandButton value="Sim" action="#{view.remover}"
+										update="geral" />
+									<h:outputText value=" OU " />
+									<p:commandButton value="Não" action="#{view.exibeLista}"
+										update="geral" />
+								</h:form>
+							</h:panelGrid>
+
+						</p:panel>
+
+					</div>
+
+					<div class="clear">&nbsp;</div>
+
+				</ui:insert>
+			</div>
+		</div>
+	</div>
+</h:body>
+
+</html>

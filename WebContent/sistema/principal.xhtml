@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	
+	<title>Carcinologia</title>
+</h:head>
+
+<h:body>
+
+				 <p:panel id="geral" footer="Museu Paraense Emilio Goeldi">
+				 <f:facet name="header" >
+				 	<h:form id="formSair">
+				 		<p:menubar >
+				 			<p:menuitem url="../administracao/principal/principal.jsf" rendered="#{Usuario.administrador}" value="&Aacute;rea administrativa"></p:menuitem>
+				 			<p:menuitem url="../senha/alterar.jsf" value="Alterar senha" ></p:menuitem>
+				 			<p:menuitem action="#{index.logOut}" value="SAIR"></p:menuitem>
+				 		</p:menubar>
+				 	</h:form>
+				 </f:facet>
+				 
+				 <p:tabView  activeIndex="#{index.indiceAbaAtual}" onTabChangeUpdate="true">
+				 
+				 	<p:tab title="Dados Participante" id="dados-participante" >
+				 		<ui:include src="/participante/cadastro.xhtml" />
+				 	</p:tab>
+				 	
+				 	<p:tab title="Pagamento#{pagamentoBeans.titulo}" id="pagamento" rendered="#{Usuario.participante != null }">
+				 		<ui:include src="/pagamento/gerar.xhtml"></ui:include>
+				 	
+				 	</p:tab>
+				 	
+				 	<p:tab title="&Aacute;rea para envio de #{resumoBeans.titulo}" id="dados-resumos" rendered="#{Usuario.participante != null}"  >
+					 	<p:panel rendered="#{participanteBeans.inscricaoQuitada}" style="border-width: 0px" >
+					 		<ui:include src="/resumo/cadastro.xhtml"></ui:include>
+					 	</p:panel>
+					 	
+					 	<p:panel rendered="#{not participanteBeans.inscricaoQuitada}"  >
+					 		<h:outputText value="A &aacute;rea de envio de resumo ser&aacute; habilitada apos a confirma&ccedil;&atilde;o do pagamento da sua inscri&ccedil;&atilde;o.">
+					 		
+					 		</h:outputText>
+					 	</p:panel>
+				 	</p:tab >
+				 	
+				 	
+				 	<p:tab title="Inscri&ccedil;&atilde;o de Minicursos" id="dados-compras" rendered="#{Usuario.participante != null }">
+				 		<ui:include src="/compras/cadastro.xhtml"></ui:include>
+				 	
+				 	</p:tab>
+				 	
+				 	
+				 </p:tabView>
+				 
+				 </p:panel>
+			
+		
+</h:body>
+
+</html>		 

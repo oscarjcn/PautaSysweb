@@ -1,0 +1,86 @@
+body {
+    background-color: #ffffff;
+    font-size: 12px;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #000000;  
+    margin: 10px;
+}
+
+h1 {
+    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    border-bottom: 1px solid #AFAFAF; 
+    font-size:  16px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    color: #D20005;
+}
+#topNav {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #ffffff;
+    text-align: right;
+    padding: 13px 10px 0 0;
+    
+}
+
+#topNav a {
+    color: #000000;
+    
+}
+
+#topNav a:hover {
+    text-decoration: none;
+}
+
+
+
+.menu-right li {
+    list-style-type: none;
+    display: inline;
+    margin: 0 0 0 15px;
+}
+
+
+a:link, a:visited {
+  color: #045491;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+a:link:hover, a:visited:hover  {
+  color: #045491;
+  font-weight : bold;
+  text-decoration : underline;
+}
+
+.ui-widget .ui-widget {
+		font-size: 1.0em;
+}
+
+.ui-widget {
+		font-size: 1.0em;
+}
+
+#conteudo input {
+		font-size: 1.0em;
+	}
+	
+#conteudo  {
+		font-size: 1.0em;
+	}
+	
+#subtabelaFormaPagamento td{
+		border-bottom: 1px dotted;
+	}
+
+#painelPagamentoPaypal_header{
+	font-weight: normal;
+	background: url("/crustacio/javax.faces.resource/images/ui-bg_glass_75_e6e6e6_1x400.png.jsf?ln=primefaces-smoothness") repeat-x scroll 50% 50% #E6E6E6;
+	}
+	
+
+	

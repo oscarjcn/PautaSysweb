@@ -1,0 +1,219 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../resources/css/default.css" rel="stylesheet"
+		type="text/css" />
+	<link href="../resources/css/cssLayout.css" rel="stylesheet"
+		type="text/css" />
+	<title>Pagamento Evento Crustáceo</title>
+</h:head>
+
+<h:body>
+			<p:panel header="Detalhamento de pagamentos" id="painelPagamento">
+			<ui:debug hotkey="Z" />
+					<p:panel>
+					<f:facet name="header" style="font-weight: bold; text-align:center">Inscrição no evento</f:facet>
+					
+					<h:panelGrid columns="1">
+					
+					<h:panelGroup>
+
+						<h:form id="formPedidosCurso" rendered="#{pagamentoBeans.exibirMiniCurso}">
+						<h:outputText value="Status do pagamento da curso" id="statusPagamentoMiniCursoRelatorio" escape="false"> </h:outputText>
+							<b>
+							<h:outputText value="Pendente" id="statosPagamentoMinicursoPendenteRelatorio" style="color:red;" 
+							rendered="#{not pagamentoBeans.pagamentoMiniCursoQuitado and pagamentoBeans.exibirMiniCurso}" > </h:outputText>
+							<h:outputText value="Pago" id="statosPagamentoMiniCursoQuitadoRelatorio"  style="color:blue;" 
+							rendered="#{pagamentoBeans.pagamentoMiniCursoQuitado and  pagamentoBeans.exibirMiniCurso}"> </h:outputText>
+							</b>
+						<p:dataTable value="#{pagamentoBeans.pedidosCurso}" var="pedido" >
+							<f:facet name="header">
+								<h:outputText value="Insformações valores do curso"></h:outputText>
+							</f:facet>
+							<p:column headerText="Data" >
+								<h:outputText value="#{pedido.dataPedido}">
+									<f:convertDateTime dateStyle="full" timeZone="EST" type="date" />
+								</h:outputText>
+							</p:column>							
+							<p:column headerText="item">
+								<p:dataTable value="#{pedido.itemsCompra}" var="item">
+									<p:column >
+										<h:outputText value="Primeira opção"  rendered="#{item.nivelPrioridade == 1}"/>
+										<h:outputText value="Segunda opção" rendered="#{item.nivelPrioridade == 2}" />
+									</p:column>
+									<p:column >
+										#{item.produto.preco}
+									</p:column>
+									<p:column >
+										#{item.produto.nome}
+									</p:column>
+								</p:dataTable>
+							</p:column>
+						</p:dataTable>
+						
+						<p:panel rendered="#{not pagamentoBeans.exibirMiniCurso}">
+						As inscrições e pagamentos de minicursos estarão disoníveis assim que todos forem definidos.
+						</p:panel>
+						
+					</h:form>
+					</h:panelGroup>
+					
+					
+						<h:panelGroup>
+						<h:outputText value="Status do pagamento da inscrição:" id="statusPagamentoRelatorio" escape="false"> </h:outputText>
+							<b>
+							<h:outputText value="Pendente" id="statosPagamentoPendenteRelatorio" style="color:red;" rendered="#{not participanteBeans.inscricaoQuitada}" > </h:outputText>
+							<h:outputText value="Pago" id="statosPagamentoQuitadoRelatorio"  style="color:blue;" rendered="#{participanteBeans.inscricaoQuitada}"> </h:outputText>
+							</b>			
+						</h:panelGroup>	
+						<h:outputText ></h:outputText>
+						
+					
+					<h:panelGroup>
+					<h:form id="formPedidosInscricao" prependId="false">
+						<p:dataTable  value="#{pagamentoBeans.pedidosInscricao}" var="pedido" id="tabelaPagamentoInscricao">
+							<p:column headerText="Categoria da inscrição">
+								#{pedido.nome}
+								<h:outputText rendered="#{pagamentoBeans.exibirMiniCurso and false}" value=" + Atividade">
+								
+								</h:outputText>
+							</p:column>		
+							<p:column headerText="Valor"> 
+								<h:outputText rendered="#{pagamentoBeans.exibirMiniCurso}" value="#{pedido.valor }">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</p:column>
+														
+						</p:dataTable>
+					</h:form>
+					</h:panelGroup>
+						
+
+				
+		<p:panel >		
+			<h:panelGrid id="grupoComprovEscos" columns="2" width="750px;">
+				<f:facet name="header">
+					<h:outputFormat value="Emvio de comprovande de categoria:"> </h:outputFormat>
+				</f:facet>
+					<h:panelGroup>
+						<p><b><h:outputText 
+										value="Enviar comprovante da categoria de inscrição (necessário para sócios e estudantes):"></h:outputText></b> </p>
+						<h:outputText 
+						value="(O comprovante também poderá ser apresentado no momento da retirada de material.
+						Caso não seja apresentado ou seja inválido a inscrição poderá ser anulada ou deverá ser corrigido o seu
+						valor.)"></h:outputText>
+					</h:panelGroup>
+					
+				<h:form>
+					<h:panelGroup id="enviaComprovEsco" rendered="#{not pagamentoBeans.visualizarComprovEsco}">
+						<p:fileUpload fileUploadListener="#{pagamentoBeans.manipuladorUploadComprovante}"	mode="advanced" 
+										update="grupoComprovEsco :mensagemEnvioComprovantePagamento" sizeLimit="2000000" 
+										allowTypes="doc,docx,pdf,jpg,jpeg" 
+										auto="true" 
+										uploadLabel="Localizar comprovante"	multiple="false" 
+										invalidFileMessage="As extensões de arquivo permitidas são: DOC, DOCX, PDF, JPG"
+										label="Localizar comprovante" required="true" requiredMessage="Arquivo é obrigatório" 
+										sizeExceedMessage="Arquivo é muito grande. Deve ter ate 2mb."
+										/>
+						<p:tooltip for="enviaComprovEsco" position="bottom center" targetPosition="top center"
+									value="formatos aceitos: pdf jpeg tiff bmp doc docx." showEffect="none"></p:tooltip>	
+					</h:panelGroup>
+					
+					
+														
+					<h:panelGroup id="visualisaComprovEsco" rendered="#{pagamentoBeans.visualizarComprovEsco}">
+						<p:commandButton id="downloadComprovante" value="Visualizar" ajax="false">
+							<p:fileDownload value="#{pagamentoBeans.arquivoComprovanteEscolaridade}"></p:fileDownload>
+						</p:commandButton>
+						<p:commandButton value="Remover comprovante" ajax="false" update=":grupocomprovantepagamento" rendered="false" 
+										action="#{pagamentoBeans.removerComprovanteEsco}"></p:commandButton>
+					</h:panelGroup>
+				</h:form>
+			</h:panelGrid>
+		</p:panel>	
+					
+			<p:panel style="width: 800px; " id="painelPagamentoPaypal">
+			<f:facet name="header">
+				<h:outputFormat value="Forma de pagamento:"> </h:outputFormat>
+			</f:facet>
+			<h:panelGrid columns="2" cellpadding="10" >
+					<h:panelGroup rendered="false">
+							<b><h:outputText value="Enviar comprovante de Depósito ou Transferência Bancária"></h:outputText></b>
+					</h:panelGroup>
+			
+			<h:panelGroup id="grupocomprovantepagamento" rendered="false">
+				<h:form>
+				<p:growl id="mensagemEnvioComprovantePagamento"></p:growl>
+					<h:panelGroup id="enviaComprovantePagamento" rendered="#{not pagamentoBeans.visualizarComprovante}">
+						<p:fileUpload 	fileUploadListener="#{pagamentoBeans.handleFileUpload}"	mode="advanced" 
+													update="grupocomprovantepagamento mensagemEnvioComprovantePagamento" sizeLimit="2000000" 
+													allowTypes="doc,docx,pdf,jpg,jpeg" auto="true" 
+													uploadLabel="Localizar comprovante12"	multiple="false" 
+													invalidFileMessage="As extensões de arquivo permitidas são: DOC, DOCX, PDF, JPG"
+													label="Localizar comprovante" required="true" requiredMessage="Arquivo é obrigatório" 
+													sizeExceedMessage="Arquivo é muito grande. Deve ter ate 2mb."
+													 />
+													 
+										<p:tooltip for="enviaComprovantePagamento" value="formatos aceitos: pdf jpeg tiff bmp doc docx." 
+										position="bottom center" targetPosition="top center"
+										showEffect="none"></p:tooltip>	
+						</h:panelGroup>									
+						<h:panelGroup id="visualisaComprovantePagamento" rendered="#{pagamentoBeans.visualizarComprovante}">
+							
+												
+							<p:commandButton id="downloadComprovante" value="Visualizar" ajax="false">
+								<p:fileDownload value="#{pagamentoBeans.arquivoComprovante}"></p:fileDownload>
+							</p:commandButton>
+							
+							<p:commandButton value="Remover comprovante " rendered="false"
+											ajax="false" update=":grupocomprovantepagamento"  
+											action="#{pagamentoBeans.removerComprovante}"></p:commandButton>
+								
+						</h:panelGroup>
+				</h:form>
+				
+			</h:panelGroup>
+			</h:panelGrid >
+			<hr style="border-top: 1px dotted; border-bottom: none; border-left: none; border-right: none; height: 1px; color: black"></hr>
+			<h:panelGrid columns="2" cellpadding="10" id="subtabelaFormaPagamento1"> <!--   rendered="#{not participanteBeans.inscricaoQuitada and pagamentoBeans.pedidoInscricao.codigoBotaoAtividade!=null}"> -->
+				<h:panelGroup>
+					<b><h:outputText value="Efetue o pagamento via PagueSeguro, clicando no botão:"></h:outputText></b>
+				</h:panelGroup>
+				<h:panelGroup>
+				<h:form>
+					<p:commandButton value="Pagar" action="#{pagamentoBeans.efetuaPagamentoPayPal}"  update=":mensagemEnvioComprovantePagamento"  />
+				</h:form>
+				</h:panelGroup>
+			</h:panelGrid>
+			
+				<hr style="border-top: 1px dotted; border-bottom: none; border-left: none; border-right: none; height: 1px; color: black"></hr>
+				<h:panelGrid columns="1" cellpadding="10" id="subtabelaFormaPagamento2" rendered="false">
+						<h:panelGroup><p>
+							<h:outputText value="Caro participante, após registrarmos seu pagamento será liberado o acesso às demais áreas do seu
+							cadastro."></h:outputText>
+							</p>
+							<p>
+							<h:outputText value="
+							Caso ainda não esteja inscrito em um minicurso ou oficina e deseja fazê-lo, você poderá efetuar o
+							pagamento da inscrição posteriormente selecionando na guia de Minicurso/Oficina e retornando em
+							pagamento para concretizar sua inscrição na atividade escolhida."></h:outputText></p>
+							<p><h:outputText value="
+							Qualquer problema entre em contato: c.organizadora.cbc@gmail.com"></h:outputText></p>
+						</h:panelGroup>
+					</h:panelGrid>
+						<h:outputText rendered="false" value="Atenção, em caso de desistência só será devolvido 80% do valor da inscrição, pedidos de devolução serão aceitos até 11/09/2012. "></h:outputText>
+						
+				</p:panel>
+			</h:panelGrid>		
+		</p:panel>				
+		
+		</p:panel>
+</h:body>
+</html>
